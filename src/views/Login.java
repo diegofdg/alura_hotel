@@ -1,56 +1,45 @@
 package views;
 
-
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import controllers.Coordinador;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
-@SuppressWarnings("serial")
-public class Login extends JFrame {
+public class Login extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField txtUsuario;
 	private JPasswordField txtContrasena;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	private Coordinador miCoordinador;
+	private JButton btnLogin;
+	private JButton btnCancelar;
+	
+	public Login() {
+		setBounds(100, 100, 700, 538);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setTitle("Alura Hotel");		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/perfil-del-usuario.png")));
+		iniciarComponentes();
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public Login() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/perfil-del-usuario.png")));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 538);
+	private void iniciarComponentes() {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		setLocationRelativeTo(null);
+		contentPane.setLayout(null);		
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/imagenes/hotel.png")));
@@ -76,20 +65,15 @@ public class Login extends JFrame {
 		lblNewLabel_1_1_1_1.setBounds(409, 236, 133, 14);
 		contentPane.add(lblNewLabel_1_1_1_1);
 		
-		JButton btnLogin = new JButton("Login");
+		btnLogin = new JButton("Login");
 		btnLogin.setIcon(new ImageIcon(Login.class.getResource("/imagenes/perfil-del-usuario.png")));
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MenuUsuario usuario = new MenuUsuario();
-				usuario.setVisible(true);
-				dispose();
-			}
-		});
+		btnLogin.addActionListener(this);
 		btnLogin.setBounds(409, 322, 103, 33);
 		contentPane.add(btnLogin);
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setIcon(new ImageIcon(Login.class.getResource("/imagenes/cerrar-24px.png")));
+		btnCancelar.addActionListener(this);
 		btnCancelar.setBounds(540, 322, 103, 33);
 		contentPane.add(btnCancelar);
 		
@@ -97,5 +81,47 @@ public class Login extends JFrame {
 		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\Genesys\\Documents\\imagenesAluraHotel\\Ha-100px.png"));
 		lblNewLabel_1.setBounds(470, 30, 103, 94);
 		contentPane.add(lblNewLabel_1);
+		
 	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnLogin) {
+			String usuario = txtUsuario.getText();
+			String password = String.valueOf(txtContrasena.getPassword());
+			boolean loginExitoso;
+			try {
+				loginExitoso = miCoordinador.verificarLogin(usuario, password);
+				if(loginExitoso) {
+					miCoordinador.mostrarMenuUsuario();
+					miCoordinador.ocultarLogin();
+									
+				} else {
+					JOptionPane.showMessageDialog(
+						null,
+						"El usuario o la contraseña son incorrectos",
+						"Advertencia",
+						JOptionPane.WARNING_MESSAGE
+					);				
+				}
+			} catch (SQLException e1) {
+				JOptionPane.showMessageDialog(
+						null,
+						"Ha ocurrido un error, intente nuevamente",
+						"Advertencia",
+						JOptionPane.WARNING_MESSAGE
+					);
+				e1.printStackTrace();
+			}			
+		}
+		
+		if(e.getSource() == btnCancelar) {
+			miCoordinador.mostrarMenuPrincipal();
+			miCoordinador.ocultarLogin();
+		}
+	}
+
+	public void setCoordinador(Coordinador miCoordinador) {
+		this.miCoordinador = miCoordinador;		
+	}	
 }

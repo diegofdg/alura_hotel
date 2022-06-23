@@ -1,9 +1,9 @@
 package views;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import controllers.Coordinador;
 import java.awt.Panel;
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -16,41 +16,28 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Toolkit;
 
-@SuppressWarnings("serial")
-public class MenuPrincipal extends JFrame {
+public class MenuPrincipal extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenuPrincipal frame = new MenuPrincipal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	private Coordinador miCoordinador;
+	private JButton btnLogin;
+	private JButton btnSalir;
+	
+	public MenuPrincipal() {
+		setBounds(100, 100, 910, 537);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setTitle("Alura Hotel");
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MenuPrincipal.class.getResource("/imagenes/aH-40px.png")));
+		iniciarComponentes();
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public MenuPrincipal() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(MenuPrincipal.class.getResource("/imagenes/aH-40px.png")));
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 910, 537);
+	private void iniciarComponentes() {		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		setResizable(false);
-		setLocationRelativeTo(null);
-
 		
 		Panel panel = new Panel();
 		panel.setBackground(new Color(245,245,245));
@@ -63,17 +50,11 @@ public class MenuPrincipal extends JFrame {
 		lblNewLabel.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagenes/menu-img.png")));
 		panel.add(lblNewLabel);
 		
-		JButton btnLogin = new JButton("");
+		btnLogin = new JButton("");
 		btnLogin.setForeground(SystemColor.text);
 		btnLogin.setBackground(Color.white);
 		btnLogin.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagenes/login.png")));
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Login login = new Login();
-				login.setVisible(true);
-				dispose();
-			}
-		});
+		btnLogin.addActionListener(this);
 		btnLogin.setBounds(763, 241, 71, 73);
 		panel.add(btnLogin);
 		
@@ -98,24 +79,41 @@ public class MenuPrincipal extends JFrame {
 		lblNewLabel_3.setFont(new Font("Arial", Font.PLAIN, 13));
 		panel_1.add(lblNewLabel_3);
 		
-		JButton btnSalir = new JButton("");
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Object [] opciones ={"Aceptar","Cancelar"};
-				 int eleccion = JOptionPane.showOptionDialog(rootPane,"Realmente desea realizar cerrar la aplicacion?","Mensaje de Confirmacion",
-				 JOptionPane.YES_NO_OPTION,
-				 JOptionPane.QUESTION_MESSAGE,null,opciones,"Aceptar");
-				 if (eleccion == JOptionPane.YES_OPTION)
-				 {
-				 System.exit(0);
-				 }else{
-				 }
-			}
-		});
+		btnSalir = new JButton("");				
 		btnSalir.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagenes/cerrar-sesion 32-px.png")));
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setBackground(Color.WHITE);
+		btnSalir.addActionListener(this);
 		btnSalir.setBounds(832, 420, 44, 39);
-		panel.add(btnSalir);
+		panel.add(btnSalir);		
+	}
+
+	public void setCoordinador(Coordinador miCoordinador) {
+		this.miCoordinador = miCoordinador;		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnLogin) {
+			miCoordinador.mostrarLogin();
+			miCoordinador.ocultarMenuPrincipal();
+		}
+		
+		if(e.getSource() == btnSalir) {
+			Object [] opciones = { "Aceptar", "Cancelar" };
+			int eleccion = JOptionPane.showOptionDialog(
+				rootPane, 
+				"Realmente desea realizar cerrar la aplicacion?",
+				"Mensaje de Confirmacion",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				opciones,
+				"Aceptar"
+			);
+			if (eleccion == JOptionPane.YES_OPTION) {
+				System.exit(0);
+			}		
+		}
 	}
 }

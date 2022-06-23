@@ -1,9 +1,9 @@
 package views;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import controllers.Coordinador;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,40 +13,29 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
-@SuppressWarnings("serial")
-public class MenuUsuario extends JFrame {
+public class MenuUsuario extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
+	private Coordinador miCoordinador;
+	private JButton btnReserva;
+	private JButton btnSalir;
+	private JButton btnBusqueda;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenuUsuario frame = new MenuUsuario();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public MenuUsuario() {
+		setBounds(100, 100, 906, 539);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setTitle("Alura Hotel");
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MenuUsuario.class.getResource("/imagenes/aH-40px.png")));
+		iniciarComponentes();
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public MenuUsuario() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(MenuUsuario.class.getResource("/imagenes/aH-40px.png")));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 906, 539);
+	private void iniciarComponentes() {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		setResizable(false);
-		setLocationRelativeTo(null);
+		contentPane.setLayout(null);		
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(MenuUsuario.class.getResource("/imagenes/menu-img.png")));
@@ -58,18 +47,12 @@ public class MenuUsuario extends JFrame {
 		lblNewLabel_2.setBounds(724, 32, 104, 107);
 		contentPane.add(lblNewLabel_2);
 		
-		JButton btnReserva = new JButton("");
+		btnReserva = new JButton("");
 		btnReserva.setIcon(new ImageIcon(MenuUsuario.class.getResource("/imagenes/reservas.png")));
-		btnReserva.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Reservas reserva = new Reservas();
-				reserva.setVisible(true);
-				dispose();
-			}
-		});
 		btnReserva.setForeground(Color.WHITE);
 		btnReserva.setBackground(Color.WHITE);
 		btnReserva.setBounds(741, 186, 71, 73);
+		btnReserva.addActionListener(this);
 		contentPane.add(btnReserva);
 		
 		JPanel panel_1 = new JPanel();
@@ -77,23 +60,17 @@ public class MenuUsuario extends JFrame {
 		panel_1.setBounds(0, 470, 894, 30);
 		contentPane.add(panel_1);
 		
-		JLabel lblNewLabel_3 = new JLabel("Desarrollado por Fulanita de Tal © 2022");
+		JLabel lblNewLabel_3 = new JLabel("Desarrollado por Diego Fabián Di Giorgio © 2022");
 		lblNewLabel_3.setForeground(new Color(12, 138, 199));
 		lblNewLabel_3.setFont(new Font("Arial", Font.PLAIN, 13));
 		panel_1.add(lblNewLabel_3);
 		
-		JButton btnSalir = new JButton("");
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MenuPrincipal principal = new MenuPrincipal();
-				principal.setVisible(true);
-				dispose();
-			}
-		});
+		btnSalir = new JButton("");
 		btnSalir.setIcon(new ImageIcon(MenuUsuario.class.getResource("/imagenes/cerrar-sesion 32-px.png")));
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setBackground(Color.WHITE);
 		btnSalir.setBounds(823, 411, 50, 47);
+		btnSalir.addActionListener(this);
 		contentPane.add(btnSalir);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Reservas");
@@ -108,18 +85,37 @@ public class MenuUsuario extends JFrame {
 		lblNewLabel_1_1_1.setBounds(741, 274, 80, 17);
 		contentPane.add(lblNewLabel_1_1_1);
 		
-		JButton btnBusqueda = new JButton("");
-		btnBusqueda.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Busqueda busqueda = new Busqueda();
-				busqueda.setVisible(true);
-				dispose();
-			}
-		});
+		btnBusqueda = new JButton("");
 		btnBusqueda.setIcon(new ImageIcon(MenuUsuario.class.getResource("/imagenes/busqueda.png")));
 		btnBusqueda.setForeground(Color.WHITE);
 		btnBusqueda.setBackground(Color.WHITE);
 		btnBusqueda.setBounds(741, 302, 71, 73);
-		contentPane.add(btnBusqueda);
+		btnBusqueda.addActionListener(this);
+		contentPane.add(btnBusqueda);		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnReserva) {
+			Reservas reserva = new Reservas();
+			reserva.setVisible(true);
+			dispose();
+		}
+		
+		if(e.getSource() == btnSalir) {
+			MenuPrincipal principal = new MenuPrincipal();
+			principal.setVisible(true);
+			dispose();			
+		}
+		
+		if(e.getSource() == btnBusqueda) {
+			Busqueda busqueda = new Busqueda();
+			busqueda.setVisible(true);
+			dispose();
+		}
+	}
+	
+	public void setCoordinador(Coordinador miCoordinador) {
+		this.miCoordinador = miCoordinador;		
 	}
 }
