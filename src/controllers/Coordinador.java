@@ -3,9 +3,11 @@ package controllers;
 import java.sql.SQLException;
 
 import funciones.Funciones;
+import views.Busqueda;
 import views.Login;
 import views.MenuPrincipal;
 import views.MenuUsuario;
+import views.Reservas;
 
 public class Coordinador {
 	
@@ -14,6 +16,8 @@ public class Coordinador {
 	private Funciones misFunciones;
 	private MenuUsuario miMenuUsuario;
 	private UsuarioController miUsuarioController;
+	private Reservas misReservas;
+	private Busqueda miBusqueda;
 	
 	public void setMenuPrincipal(MenuPrincipal miMenuPrincipal) {
 		this.miMenuPrincipal = miMenuPrincipal;		
@@ -29,6 +33,18 @@ public class Coordinador {
 	
 	public void setMenuUsuario(MenuUsuario miMenuUsuario) {
 		this.miMenuUsuario = miMenuUsuario;		
+	}
+	
+	public void setUsuarioController(UsuarioController miUsuarioController) {
+		this.miUsuarioController = miUsuarioController;		
+	}
+
+	public void setMisReservas(Reservas misReservas) {
+		this.misReservas = misReservas;		
+	}
+	
+	public void setMiBusqueda(Busqueda miBusqueda) {
+		this.miBusqueda = miBusqueda;		
 	}
 	
 	public void mostrarMenuPrincipal() {
@@ -54,12 +70,24 @@ public class Coordinador {
 	public void ocultarMenuUsuario() {
 		miMenuUsuario.setVisible(false);		
 	}
+	
+	public void mostrarReservas() {
+		misReservas.setVisible(true);		
+	}
+	
+	public void ocultarReservas() {
+		misReservas.setVisible(false);		
+	}
+	
+	public void mostrarBusqueda() {
+		miBusqueda.setVisible(true);
+	}
+	
+	public void ocultarBusqueda() {
+		miBusqueda.setVisible(false);
+	}
 
 	public boolean verificarLogin(String usuario, String password) throws SQLException {
 		return miUsuarioController.verificarLogin(usuario, password);		
-	}
-
-	public void setUsuarioController(UsuarioController miUsuarioController) {
-		this.miUsuarioController = miUsuarioController;		
 	}	
 }

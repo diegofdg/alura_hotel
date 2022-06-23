@@ -1,6 +1,5 @@
 package views;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,9 +9,9 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
+import controllers.Coordinador;
 import java.awt.Font;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
@@ -22,44 +21,31 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
-
-@SuppressWarnings("serial")
-public class Reservas extends JFrame {
+public class Reservas extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField txtValor;
+	private Coordinador miCoordinador;
+	private JComboBox<String> txtFormaPago;
+	private JButton btnReservar;
+	private JButton btnSalir;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Reservas frame = new Reservas();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public Reservas() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Reservas.class.getResource("/imagenes/calendario.png")));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 910, 540);
+		setLocationRelativeTo(null);
 		setResizable(false);
+		setTitle("Alura Hotel");
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Reservas.class.getResource("/imagenes/calendario.png")));
+		iniciarComponentes();
+	}
+	
+	private void iniciarComponentes() {
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.control);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		setResizable(false);
-		setLocationRelativeTo(null);
+		contentPane.setLayout(null);		
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(245,245,245));
@@ -97,10 +83,12 @@ public class Reservas extends JFrame {
 		lblNewLabel_1_1_1.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel.add(lblNewLabel_1_1_1);
 		
-		JComboBox txtFormaPago = new JComboBox();
+		txtFormaPago = new JComboBox<String>();
 		txtFormaPago.setBounds(88, 373, 235, 33);
 		txtFormaPago.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtFormaPago.setModel(new DefaultComboBoxModel(new String[] {"Tarjeta de Crédito", "Tarjeta de Débito", "Dinero en efectivo"}));
+		txtFormaPago.addItem(new String("Tarjeta de Crédito"));
+		txtFormaPago.addItem(new String("Tarjeta de Débito"));
+		txtFormaPago.addItem(new String("Dinero en efectivo"));		
 		panel.add(txtFormaPago);
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Forma de pago");
@@ -114,16 +102,10 @@ public class Reservas extends JFrame {
 		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 20));
 		panel.add(lblNewLabel_4);
 		
-		JButton btnReservar = new JButton("Continuar");
-		btnReservar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				RegistroHuesped huesped = new RegistroHuesped();
-				huesped.setVisible(true);
-				dispose();
-			}
-		});
+		btnReservar = new JButton("Continuar");		
 		btnReservar.setForeground(Color.WHITE);
-		btnReservar.setBounds(183, 436, 140, 33);
+		btnReservar.setBounds(88, 436, 140, 33);
+		btnReservar.addActionListener(this);
 		btnReservar.setIcon(new ImageIcon(Reservas.class.getResource("/imagenes/calendario.png")));
 		btnReservar.setBackground(new Color(65,105,225));
 		btnReservar.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -145,7 +127,17 @@ public class Reservas extends JFrame {
 		lblNewLabel_2.setIcon(new ImageIcon(Reservas.class.getResource("/imagenes/Ha-100px.png")));
 		lblNewLabel_2.setBounds(15, 6, 104, 107);
 		panel.add(lblNewLabel_2);
+		
+		btnSalir = new JButton("");
+		btnSalir.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagenes/cerrar-sesion 32-px.png")));
+		btnSalir.setForeground(Color.WHITE);
+		btnSalir.setBackground(Color.WHITE);
+		btnSalir.addActionListener(this);
+		btnSalir.setBounds(279, 436, 44, 33);
+		panel.add(btnSalir);
+		
 	}
+
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -162,5 +154,23 @@ public class Reservas extends JFrame {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+
+	public void setCoordinador(Coordinador miCoordinador) {
+		this.miCoordinador = miCoordinador;	
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnReservar) {
+			RegistroHuesped huesped = new RegistroHuesped();
+			huesped.setVisible(true);
+			dispose();
+		}
+		
+		if(e.getSource() == btnSalir) {
+			miCoordinador.mostrarMenuUsuario();
+			miCoordinador.ocultarReservas();			
+		}
 	}
 }

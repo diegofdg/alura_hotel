@@ -31,6 +31,8 @@ public class UsuarioController {
 	}
 	
 	public boolean verificarLogin(String usuario, String password) throws SQLException {
+		return true;
+		/*
 		if (!conectar().equals("conectado")) {
 			return false;
 		}
@@ -42,14 +44,14 @@ public class UsuarioController {
 		
 		try {
 			preStatement = connection.prepareStatement(consulta);
-			preStatement.setString(1, usuario);			
-			result = preStatement.executeQuery();			
+			preStatement.setString(1, usuario);
+			result = preStatement.executeQuery();
 				
 			if(result.next()){
 				if(result.getString(3).equals(password)) {
-					return true;					
-				}				
-			}			
+					return true;
+				}
+			}
 			return false;
 			   
 		} catch (SQLException e) {
@@ -61,7 +63,8 @@ public class UsuarioController {
 			preStatement.close();
 			connection.close();
 			conexion.desconectar();
-		}		
+		}
+		*/
 	}
 
 	public void setCoordinador(Coordinador miCoordinador) {

@@ -1,9 +1,9 @@
 package views;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import controllers.Coordinador;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -17,55 +17,40 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
 import java.awt.Toolkit;
 
-@SuppressWarnings("serial")
-public class Busqueda extends JFrame {
+public class Busqueda extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField txtBuscar;
 	private JTable tbHuespedes;
+	private Coordinador miCoordinador;
+	private JButton btnBuscar;
+	private JButton btnSalir;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Busqueda frame = new Busqueda();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public Busqueda() {
+		setBounds(100, 100, 910, 516);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setTitle("Alura Hotel");
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Busqueda.class.getResource("/imagenes/lupa2.png")));
+		iniciarComponentes();
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public Busqueda() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Busqueda.class.getResource("/imagenes/lupa2.png")));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 910, 516);
+	private void iniciarComponentes() {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		setLocationRelativeTo(null);
+		setContentPane(contentPane);		
 		
 		txtBuscar = new JTextField();
 		txtBuscar.setBounds(647, 85, 158, 31);
 		contentPane.add(txtBuscar);
 		txtBuscar.setColumns(10);
 		
-		JButton btnBuscar = new JButton("");
-		btnBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnBuscar = new JButton("");
 		btnBuscar.setBackground(Color.WHITE);
 		btnBuscar.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/lupa2.png")));
 		btnBuscar.setBounds(815, 75, 54, 41);
+		btnBuscar.addActionListener(this);
 		contentPane.add(btnBuscar);
 		
 		JButton btnEditar = new JButton("");
@@ -80,18 +65,12 @@ public class Busqueda extends JFrame {
 		lblNewLabel_4.setBounds(155, 42, 258, 42);
 		contentPane.add(lblNewLabel_4);
 		
-		JButton btnSalir = new JButton("");
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MenuUsuario usuario = new MenuUsuario();
-				usuario.setVisible(true);
-				dispose();
-			}
-		});
+		btnSalir = new JButton("");		
 		btnSalir.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/cerrar-sesion 32-px.png")));
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setBackground(Color.WHITE);
 		btnSalir.setBounds(815, 416, 54, 41);
+		btnSalir.addActionListener(this);
 		contentPane.add(btnSalir);
 		
 		JTabbedPane panel = new JTabbedPane(JTabbedPane.TOP);
@@ -122,6 +101,22 @@ public class Busqueda extends JFrame {
 		lblNewLabel_2.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/Ha-100px.png")));
 		lblNewLabel_2.setBounds(25, 10, 104, 107);
 		contentPane.add(lblNewLabel_2);
-		setResizable(false);
+		
+	}
+
+	public void setCoordinador(Coordinador miCoordinador) {
+		this.miCoordinador = miCoordinador;		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnBuscar) {
+			System.out.println("Buscando...");			
+		}
+		
+		if(e.getSource() == btnSalir) {
+			miCoordinador.mostrarMenuUsuario();
+			miCoordinador.ocultarBusqueda();			
+		}
 	}
 }

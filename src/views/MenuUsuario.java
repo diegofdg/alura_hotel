@@ -97,21 +97,18 @@ public class MenuUsuario extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnReserva) {
-			Reservas reserva = new Reservas();
-			reserva.setVisible(true);
-			dispose();
+			miCoordinador.mostrarReservas();
+			miCoordinador.ocultarMenuUsuario();
 		}
 		
 		if(e.getSource() == btnSalir) {
-			MenuPrincipal principal = new MenuPrincipal();
-			principal.setVisible(true);
-			dispose();			
+			miCoordinador.mostrarLogin();
+			miCoordinador.ocultarMenuUsuario();
 		}
 		
 		if(e.getSource() == btnBusqueda) {
-			Busqueda busqueda = new Busqueda();
-			busqueda.setVisible(true);
-			dispose();
+			miCoordinador.mostrarBusqueda();
+			miCoordinador.ocultarMenuUsuario();
 		}
 	}
 	

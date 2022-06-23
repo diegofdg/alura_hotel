@@ -30,7 +30,7 @@ public class Login extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setTitle("Alura Hotel");		
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);	
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/perfil-del-usuario.png")));
 		iniciarComponentes();
 	}
