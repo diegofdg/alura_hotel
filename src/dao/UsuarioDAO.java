@@ -1,4 +1,4 @@
-package controllers;
+package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,31 +8,35 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import conexion.Conexion;
+import controllers.Coordinador;
 
-public class UsuarioController {
+public class UsuarioDAO {
 	
-	private Coordinador miCoordinador;	
+	private Coordinador miCoordinador;
 	Connection connection = null;
 	Conexion conexion = null;
 	PreparedStatement preStatement = null;
 	
 	private String conectar() {
-		
 		conexion = new Conexion();
 		String resultado=conexion.conectar();
 		
 		if (resultado.equals("conectado")) {
 			connection = conexion.getConnection();
 		} else {
-			JOptionPane.showMessageDialog(null, resultado,"Error",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(
+				null,
+				resultado,
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 		}
 		
 		return resultado;
 	}
 	
 	public boolean verificarLogin(String usuario, String password) throws SQLException {
-		return true;
-		/*
+		
 		if (!conectar().equals("conectado")) {
 			return false;
 		}
@@ -40,7 +44,6 @@ public class UsuarioController {
 		ResultSet result = null;
 	
 		String consulta="SELECT * FROM usuarios where usuario = ? ";
-		
 		
 		try {
 			preStatement = connection.prepareStatement(consulta);
@@ -63,11 +66,10 @@ public class UsuarioController {
 			preStatement.close();
 			connection.close();
 			conexion.desconectar();
-		}
-		*/
+		}		
 	}
 
 	public void setCoordinador(Coordinador miCoordinador) {
-		this.miCoordinador = miCoordinador;
+		this.miCoordinador = miCoordinador;		
 	}
 }
