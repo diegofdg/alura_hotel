@@ -37,15 +37,15 @@ public class MenuUsuario extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);		
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(MenuUsuario.class.getResource("/imagenes/menu-img.png")));
-		lblNewLabel.setBounds(-56, 0, 741, 471);
-		contentPane.add(lblNewLabel);
+		JLabel lblImagen = new JLabel("");
+		lblImagen.setIcon(new ImageIcon(MenuUsuario.class.getResource("/imagenes/menu-img.png")));
+		lblImagen.setBounds(-56, 0, 741, 471);
+		contentPane.add(lblImagen);
 		
-		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon(MenuUsuario.class.getResource("/imagenes/Ha-100px.png")));
-		lblNewLabel_2.setBounds(724, 32, 104, 107);
-		contentPane.add(lblNewLabel_2);
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setIcon(new ImageIcon(MenuUsuario.class.getResource("/imagenes/Ha-100px.png")));
+		lblLogo.setBounds(724, 32, 104, 107);
+		contentPane.add(lblLogo);
 		
 		btnReserva = new JButton("");
 		btnReserva.setIcon(new ImageIcon(MenuUsuario.class.getResource("/imagenes/reservas.png")));
@@ -73,17 +73,17 @@ public class MenuUsuario extends JFrame implements ActionListener {
 		btnSalir.addActionListener(this);
 		contentPane.add(btnSalir);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Reservas");
-		lblNewLabel_1_1.setForeground(new Color(12, 138, 199));
-		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD, 16));
-		lblNewLabel_1_1.setBounds(741, 163, 80, 17);
-		contentPane.add(lblNewLabel_1_1);
+		JLabel lblReservas = new JLabel("Reservas");
+		lblReservas.setForeground(new Color(12, 138, 199));
+		lblReservas.setFont(new Font("Arial", Font.BOLD, 16));
+		lblReservas.setBounds(741, 163, 80, 17);
+		contentPane.add(lblReservas);
 		
-		JLabel lblNewLabel_1_1_1 = new JLabel("Búsqueda");
-		lblNewLabel_1_1_1.setForeground(new Color(12, 138, 199));
-		lblNewLabel_1_1_1.setFont(new Font("Arial", Font.BOLD, 16));
-		lblNewLabel_1_1_1.setBounds(741, 274, 80, 17);
-		contentPane.add(lblNewLabel_1_1_1);
+		JLabel lblBusqueda = new JLabel("Búsqueda");
+		lblBusqueda.setForeground(new Color(12, 138, 199));
+		lblBusqueda.setFont(new Font("Arial", Font.BOLD, 16));
+		lblBusqueda.setBounds(741, 274, 80, 17);
+		contentPane.add(lblBusqueda);
 		
 		btnBusqueda = new JButton("");
 		btnBusqueda.setIcon(new ImageIcon(MenuUsuario.class.getResource("/imagenes/busqueda.png")));

@@ -41,29 +41,29 @@ public class Login extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);		
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/imagenes/hotel.png")));
-		lblNewLabel.setBounds(-53, 0, 422, 499);
-		contentPane.add(lblNewLabel);
+		JLabel lblImagen = new JLabel("New label");
+		lblImagen.setIcon(new ImageIcon(Login.class.getResource("/imagenes/hotel.png")));
+		lblImagen.setBounds(-53, 0, 422, 499);
+		contentPane.add(lblImagen);
 		
 		txtUsuario = new JTextField();
 		txtUsuario.setColumns(10);
 		txtUsuario.setBounds(409, 181, 234, 33);
 		contentPane.add(txtUsuario);
 		
-		JLabel lblNewLabel_1_1_1 = new JLabel("Usuario");
-		lblNewLabel_1_1_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblNewLabel_1_1_1.setBounds(409, 156, 57, 14);
-		contentPane.add(lblNewLabel_1_1_1);
+		JLabel lblUsuario = new JLabel("Usuario");
+		lblUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblUsuario.setBounds(409, 156, 57, 14);
+		contentPane.add(lblUsuario);
 		
 		txtContrasena = new JPasswordField();
 		txtContrasena.setBounds(409, 261, 234, 33);
 		contentPane.add(txtContrasena);
 		
-		JLabel lblNewLabel_1_1_1_1 = new JLabel("Contraseña");
-		lblNewLabel_1_1_1_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblNewLabel_1_1_1_1.setBounds(409, 236, 133, 14);
-		contentPane.add(lblNewLabel_1_1_1_1);
+		JLabel lblContrasena = new JLabel("Contraseña");
+		lblContrasena.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblContrasena.setBounds(409, 236, 133, 14);
+		contentPane.add(lblContrasena);
 		
 		btnLogin = new JButton("Login");
 		btnLogin.setIcon(new ImageIcon(Login.class.getResource("/imagenes/perfil-del-usuario.png")));
@@ -77,10 +77,10 @@ public class Login extends JFrame implements ActionListener {
 		btnCancelar.setBounds(540, 322, 103, 33);
 		contentPane.add(btnCancelar);
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\Genesys\\Documents\\imagenesAluraHotel\\Ha-100px.png"));
-		lblNewLabel_1.setBounds(470, 30, 103, 94);
-		contentPane.add(lblNewLabel_1);
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setIcon(new ImageIcon(Login.class.getResource("/imagenes/Ha-100px.png")));
+		lblLogo.setBounds(470, 30, 103, 94);
+		contentPane.add(lblLogo);
 		
 	}
 	
@@ -93,6 +93,7 @@ public class Login extends JFrame implements ActionListener {
 			try {
 				loginExitoso = miCoordinador.verificarLogin(usuario, password);
 				if(loginExitoso) {
+					limpiarCampos();
 					miCoordinador.mostrarMenuUsuario();
 					miCoordinador.ocultarLogin();
 									
@@ -119,6 +120,11 @@ public class Login extends JFrame implements ActionListener {
 			miCoordinador.mostrarMenuPrincipal();
 			miCoordinador.ocultarLogin();
 		}
+	}
+
+	private void limpiarCampos() {
+		this.txtUsuario.setText("");
+		this.txtContrasena.setText("");		
 	}
 
 	public void setCoordinador(Coordinador miCoordinador) {

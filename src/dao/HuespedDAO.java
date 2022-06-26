@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import conexion.Conexion;
 import controllers.Coordinador;
@@ -81,5 +82,44 @@ public class HuespedDAO {
 	
 	public void setCoordinador(Coordinador miCoordinador) {
 		this.miCoordinador = miCoordinador;
+	}
+	
+	public ArrayList<Huesped> listarHuespedes() throws SQLException {
+		ArrayList<Huesped> resultado = new ArrayList<Huesped>();
+		
+		if (!conectar().equals("conectado")) {
+			return resultado;
+		}
+
+		String consulta = "SELECT nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva FROM huespedes";
+
+		try {
+			preStatement = connection.prepareStatement(consulta);
+			final ResultSet resultSet = preStatement.executeQuery();		    
+            
+            while (resultSet.next()) {
+                resultado.add(new Huesped(
+            		resultSet.getString(1),
+            		resultSet.getString(2),        				
+    				resultSet.getDate(3),
+    				resultSet.getString(4),
+    				resultSet.getString(5),
+    				resultSet.getInt(6)
+    			));
+            }
+		
+		} catch (SQLException e) {
+			System.out.println("No se pudo registrar la reserva " + e.getMessage());
+			
+		} catch (Exception e) {
+			System.out.println("No se pudo registrar la reserva " + e.getMessage());
+			
+		} finally {
+			preStatement.close();
+			connection.close();
+			conexion.desconectar();
+		}
+		
+		return resultado;
 	}
 }

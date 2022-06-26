@@ -1,7 +1,7 @@
 package controllers;
 
 import java.sql.SQLException;
-
+import java.util.ArrayList;
 import dao.HuespedDAO;
 import dao.ReservaDAO;
 import dao.UsuarioDAO;
@@ -66,6 +66,14 @@ public class Coordinador {
 		this.miRegistroHuesped = miRegistroHuesped;		
 	}
 	
+	public void setMiHuespedDAO(HuespedDAO miHuespedDAO) {
+		this.miHuespedDAO = miHuespedDAO;		
+	}
+
+	public void setMiExito(Exito miExito) {
+		this.miExito = miExito;	
+	}
+	
 	public void mostrarMenuPrincipal() {
 		miMenuPrincipal.setVisible(true);		
 	}
@@ -99,25 +107,13 @@ public class Coordinador {
 	}
 	
 	public void mostrarBusqueda() {
+		miBusqueda.llenarTablas();
 		miBusqueda.setVisible(true);
 	}
 	
 	public void ocultarBusqueda() {
 		miBusqueda.setVisible(false);
 	}
-
-	public boolean verificarLogin(String usuario, String password) throws SQLException {
-		return miUsuarioDAO.verificarLogin(usuario, password);		
-	}
-
-	public int guardarReserva(Reserva reserva) throws SQLException {
-		return miReservaDAO.guardarReserva(reserva);		
-	}
-	
-	public int guardarHuesped(Huesped huesped) throws SQLException {
-		return miHuespedDAO.guardarHuesped(huesped);
-	}
-
 	
 	public void mostrarRegistroHuesped(int id_reserva) {
 		miRegistroHuesped.agregarIdReserva(id_reserva);
@@ -128,16 +124,7 @@ public class Coordinador {
 	public void ocultarRegistroHuesped() {
 		miRegistroHuesped.dispose();		
 	}
-
-	public void setMiHuespedDAO(HuespedDAO miHuespedDAO) {
-		this.miHuespedDAO = miHuespedDAO;
-		
-	}
-
-	public void setMiExito(Exito miExito) {
-		this.miExito = miExito;	
-	}
-
+	
 	public void mostrarExito() {
 		miExito.setVisible(true);
 		miRegistroHuesped.setVisible(false);		
@@ -145,5 +132,25 @@ public class Coordinador {
 
 	public void ocultarExito() {
 		miExito.setVisible(false);		
-	}			
+	}
+
+	public boolean verificarLogin(String usuario, String password) throws SQLException {
+		return miUsuarioDAO.verificarLogin(usuario, password);		
+	}
+	
+	public ArrayList<Reserva> listarReservas() throws SQLException {
+		return miReservaDAO.listarReservas();
+	}
+
+	public int guardarReserva(Reserva reserva) throws SQLException {
+		return miReservaDAO.guardarReserva(reserva);		
+	}
+	
+	public ArrayList<Huesped> listarHuespedes() throws SQLException {
+		return miHuespedDAO.listarHuespedes();
+	}
+	
+	public int guardarHuesped(Huesped huesped) throws SQLException {
+		return miHuespedDAO.guardarHuesped(huesped);
+	}
 }

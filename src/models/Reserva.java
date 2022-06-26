@@ -20,6 +20,10 @@ public class Reserva {
 	public int getId() {
 		return id;
 	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public Date getFecha_entrada() {
 		return fecha_entrada;
@@ -35,5 +39,5 @@ public class Reserva {
 
 	public String getForma_pago() {
 		return forma_pago;
-	}
+	}	
 }

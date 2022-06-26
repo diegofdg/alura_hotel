@@ -34,17 +34,17 @@ public class Exito extends JDialog {
 		setLocationRelativeTo(null);
 		contentPanel.setLayout(null);
 		{
-			JLabel lblNewLabel = new JLabel("");
-			lblNewLabel.setIcon(new ImageIcon(Exito.class.getResource("/imagenes/Ha-100px.png")));
-			lblNewLabel.setBounds(123, 11, 100, 100);
-			contentPanel.add(lblNewLabel);
+			JLabel lblLogo = new JLabel("");
+			lblLogo.setIcon(new ImageIcon(Exito.class.getResource("/imagenes/Ha-100px.png")));
+			lblLogo.setBounds(123, 11, 100, 100);
+			contentPanel.add(lblLogo);
 		}
 		{
-			JLabel lblNewLabel_1 = new JLabel("Datos guardados satisfactoriamente");
-			lblNewLabel_1.setForeground(new Color (12, 138, 199));
-			lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 18));
-			lblNewLabel_1.setBounds(27, 122, 322, 21);
-			contentPanel.add(lblNewLabel_1);
+			JLabel lblTitulo = new JLabel("Datos guardados satisfactoriamente");
+			lblTitulo.setForeground(new Color (12, 138, 199));
+			lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
+			lblTitulo.setBounds(27, 122, 322, 21);
+			contentPanel.add(lblTitulo);
 		}
 		{
 			JPanel buttonPane = new JPanel();

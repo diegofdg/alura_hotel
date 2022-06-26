@@ -45,10 +45,10 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(-49, 0, 746, 471);
-		lblNewLabel.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagenes/menu-img.png")));
-		panel.add(lblNewLabel);
+		JLabel lblImagen = new JLabel("");
+		lblImagen.setBounds(-49, 0, 746, 471);
+		lblImagen.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagenes/menu-img.png")));
+		panel.add(lblImagen);
 		
 		btnLogin = new JButton("");
 		btnLogin.setForeground(SystemColor.text);
@@ -58,16 +58,16 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		btnLogin.setBounds(763, 241, 71, 73);
 		panel.add(btnLogin);
 		
-		JLabel lblNewLabel_1 = new JLabel("Login");
-		lblNewLabel_1.setForeground(new Color(12, 138, 199));
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(777, 213, 44, 24);
-		panel.add(lblNewLabel_1);
+		JLabel lblLogin = new JLabel("Login");
+		lblLogin.setForeground(new Color(12, 138, 199));
+		lblLogin.setFont(new Font("Arial", Font.BOLD, 16));
+		lblLogin.setBounds(777, 213, 44, 24);
+		panel.add(lblLogin);
 		
-		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagenes/aH-150px.png")));
-		lblNewLabel_2.setBounds(723, 33, 150, 156);
-		panel.add(lblNewLabel_2);
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagenes/aH-150px.png")));
+		lblLogo.setBounds(723, 33, 150, 156);
+		panel.add(lblLogo);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(12, 138, 199));
