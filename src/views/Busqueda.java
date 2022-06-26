@@ -11,6 +11,7 @@ import models.Reserva;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
 import java.awt.Toolkit;
+import javax.swing.JRadioButton;
 
 public class Busqueda extends JFrame implements ActionListener {
 
@@ -40,6 +42,14 @@ public class Busqueda extends JFrame implements ActionListener {
 	private JButton btnEditar;
 	private JButton btnEliminar;
 	private JButton btnCancelar;
+	private ArrayList<Reserva> listaReservas;
+	private ArrayList<Reserva> listaFiltradaReservas;
+	private ArrayList<Huesped> listaHuespedes;
+	private ArrayList<Huesped> listaFiltradaHuespedes;
+	private JTabbedPane panel;
+	private ButtonGroup grupoDeRadios;
+	private JRadioButton rdbtnId;
+	private JRadioButton rdbtnApellido;
 
 	public Busqueda() {
 		setBounds(100, 100, 910, 516);
@@ -90,7 +100,7 @@ public class Busqueda extends JFrame implements ActionListener {
 		btnSalir.addActionListener(this);
 		contentPane.add(btnSalir);
 		
-		JTabbedPane panel = new JTabbedPane(JTabbedPane.TOP);
+		panel = new JTabbedPane(JTabbedPane.TOP);
 		panel.setBounds(10, 127, 874, 265);
 		contentPane.add(panel);
 		
@@ -141,7 +151,20 @@ public class Busqueda extends JFrame implements ActionListener {
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/Ha-100px.png")));
 		lblLogo.setBounds(25, 10, 104, 107);
-		contentPane.add(lblLogo);	
+		contentPane.add(lblLogo);
+		
+		grupoDeRadios = new ButtonGroup();
+		
+		rdbtnId = new JRadioButton("ID Reserva");
+		rdbtnId.setBounds(414, 89, 109, 23);
+		rdbtnId.setSelected(true);
+		grupoDeRadios.add(rdbtnId);
+		contentPane.add(rdbtnId);
+		
+		rdbtnApellido = new JRadioButton("Apellido");
+		rdbtnApellido.setBounds(532, 89, 109, 23);
+		grupoDeRadios.add(rdbtnApellido);
+		contentPane.add(rdbtnApellido);
 	}
 
 	public void llenarTablas() {
@@ -149,33 +172,12 @@ public class Busqueda extends JFrame implements ActionListener {
 		modeloH = (DefaultTableModel) tbHuespedes.getModel();
 		
 		try {						
-			ArrayList<Reserva> listaReservas = miCoordinador.listarReservas();
-			listaReservas.forEach((reserva) -> {
-	            modeloR.addRow(
-                    new Object[]{	               
-                    	reserva.getId(),
-                		reserva.getFecha_entrada(),
-        				reserva.getFecha_salida(),
-        				reserva.getValor(),
-        				reserva.getForma_pago(),
-                    }
-	            );
-			 });
-			
-			
-			ArrayList<Huesped> listaHuespedes = miCoordinador.listarHuespedes();
-			listaHuespedes.forEach((huesped) -> {
-	            modeloH.addRow(
-                    new Object[]{	                        
-                		huesped.getNombre(),
-        				huesped.getApellido(),
-        				huesped.getFecha_nacimiento(),
-        				huesped.getNacionalidad(),
-        				huesped.getTelefono(),
-        				huesped.getId_reserva()
-                    }
-	            );
-			 });			
+			listaReservas = miCoordinador.listarReservas();
+			llenarTablaReservas(listaReservas);
+						
+			listaHuespedes = miCoordinador.listarHuespedes();
+			llenarTablaHuespedes(listaHuespedes);
+						
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(
@@ -185,17 +187,188 @@ public class Busqueda extends JFrame implements ActionListener {
 		}
 	}
 
+	private void llenarTablaHuespedes(ArrayList<Huesped> listaHuespedes) {
+		listaHuespedes.forEach((huesped) -> {
+            modeloH.addRow(
+                new Object[]{	                        
+            		huesped.getNombre(),
+    				huesped.getApellido(),
+    				huesped.getFecha_nacimiento(),
+    				huesped.getNacionalidad(),
+    				huesped.getTelefono(),
+    				huesped.getId_reserva()
+                }
+            );
+		 });
+		
+	}
+
+	private void llenarTablaReservas(ArrayList<Reserva> listaReservas) {
+		listaReservas.forEach((reserva) -> {
+            modeloR.addRow(
+                new Object[]{	               
+                	reserva.getId(),
+            		reserva.getFecha_entrada(),
+    				reserva.getFecha_salida(),
+    				reserva.getValor(),
+    				reserva.getForma_pago(),
+                }
+            );
+		 });		
+	}
+
 	public void setCoordinador(Coordinador miCoordinador) {
 		this.miCoordinador = miCoordinador;		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		if(e.getSource() == btnBuscar) {
-			System.out.println("Buscando...");			
-		}
+			String texto = txtBuscar.getText();
+			int panelSeleccionado = getPanelSeleccionado();
+			
+			if(panelSeleccionado == 0) {
+				
+				if(rdbtnId.isSelected()) {
+					
+					if(texto.isEmpty()) {
+						JOptionPane.showMessageDialog(
+							this,
+							"Ingresa un número para buscar por id"
+						);
+						limpiarTabla("tabla huespedes");
+						llenarTablaHuespedes(listaHuespedes);
+						
+					} else {
+						try {
+					        int id = (int)Double.parseDouble(texto);
+					        listaFiltradaHuespedes = miCoordinador.buscarHuespedPorId(id);
+					        
+					        if(listaFiltradaHuespedes.size() > 0) {
+								limpiarTabla("tabla huespedes");
+								llenarTablaHuespedes(listaFiltradaHuespedes);
+							} else {
+								JOptionPane.showMessageDialog(
+										this,
+										"No existen registros que coincidan con la busqueda ingresada"
+										);						
+								limpiarTabla("tabla huespedes");
+								llenarTablaHuespedes(listaHuespedes);								
+							}
+					        
+					    } catch(NumberFormatException e1) {
+					    	JOptionPane.showMessageDialog(
+								this,
+								"Debes ingresar un número válido como id"
+					    	);
+					    	limpiarTabla("tabla huespedes");
+							llenarTablaHuespedes(listaHuespedes);
+					    	
+					    } catch(SQLException e2) {
+					    	JOptionPane.showMessageDialog(
+								this,
+								"Ha ocurrido un error"
+							);
+					    	limpiarTabla("tabla huespedes");
+							llenarTablaHuespedes(listaHuespedes);
+					    }
+					}					
+					
+				} else if(rdbtnApellido.isSelected() ) {
+					if(texto.isEmpty() || texto.length() < 3) {
+						JOptionPane.showMessageDialog(
+							this,
+							"Ingresa al menos tres caracteres para poder buscar"
+						);
+						limpiarTabla("tabla huespedes");
+						llenarTablaHuespedes(listaHuespedes);
+					}
+					
+					try {
+						listaFiltradaHuespedes = miCoordinador.buscarHuespedPorApellido(texto);
+				        
+						if(listaFiltradaHuespedes.size() > 0) {
+							limpiarTabla("tabla huespedes");
+							llenarTablaHuespedes(listaFiltradaHuespedes);
+						} else {
+							JOptionPane.showMessageDialog(
+								this,
+								"No existen registros que coincidan con la busqueda ingresada"
+							);						
+							limpiarTabla("tabla huespedes");
+							llenarTablaHuespedes(listaHuespedes);								
+						}
+				        
+				    } catch(SQLException e1) {
+				    	JOptionPane.showMessageDialog(
+				    			this,
+				    			"Ha ocurrido un error"
+				    			);
+				    	limpiarTabla("tabla huespedes");
+						llenarTablaHuespedes(listaHuespedes);
+				    }					
+				}				
+			} else if(panelSeleccionado == 1) {
+				if(rdbtnId.isSelected()) {
+					
+					if(texto.isEmpty()) {
+						JOptionPane.showMessageDialog(
+							this,
+							"Ingresa un número para buscar por id"
+						);
+						limpiarTabla("tabla reservas");
+						llenarTablaReservas(listaReservas);
+						
+					} else {
+						try {
+					        int id = (int)Double.parseDouble(texto);
+					        listaFiltradaReservas = miCoordinador.buscarReservaPorId(id);
+					        
+					        if(listaFiltradaReservas.size() > 0) {
+								limpiarTabla("tabla reservas");
+								llenarTablaReservas(listaFiltradaReservas);								
+							} else {
+								JOptionPane.showMessageDialog(
+										this,
+										"No existen registros que coincidan con la busqueda ingresada"
+										);						
+								limpiarTabla("tabla reservas");
+								llenarTablaReservas(listaReservas);								
+							}
+					        
+					    } catch(NumberFormatException e1) {
+					    	JOptionPane.showMessageDialog(
+					    			this,
+					    			"Debes ingresar un número válido como id"
+					    			);
+					    	limpiarTabla("tabla reservas");
+							llenarTablaReservas(listaReservas);
+					    	
+					    } catch(SQLException e2) {
+					    	JOptionPane.showMessageDialog(
+					    			this,
+					    			"Ha ocurrido un error"
+					    			);
+					    	limpiarTabla("tabla reservas");
+							llenarTablaReservas(listaReservas);
+					    }
+					}
+					
+				} else if(rdbtnApellido.isSelected()) {
+					JOptionPane.showMessageDialog(
+							this,
+							"No es posible buscar por Apellido en la pestaña de Reservas"
+							);
+					limpiarTabla("tabla reservas");
+					llenarTablaReservas(listaReservas);
+				}
+			}	
+		}	
 		
 		if(e.getSource() == btnEditar) {
+			int selectedIndex = panel.getSelectedIndex();
+	        System.out.println("Panel Seleccionado" + selectedIndex);
 			System.out.println("Editando...");			
 		}
 		
@@ -210,6 +383,18 @@ public class Busqueda extends JFrame implements ActionListener {
 		if(e.getSource() == btnSalir) {
 			miCoordinador.mostrarMenuUsuario();
 			miCoordinador.ocultarBusqueda();			
+		}
+	}
+
+	private int getPanelSeleccionado() {
+		return panel.getSelectedIndex();
+	}
+	
+	private void limpiarTabla(String tabla) {
+		if(tabla.equals("tabla huespedes")) {
+			modeloH.setRowCount(0);			
+		} else if(tabla.equals("tabla reservas")) {		
+			modeloR.setRowCount(0);
 		}
 	}
 }

@@ -122,4 +122,90 @@ public class HuespedDAO {
 		
 		return resultado;
 	}
+
+	public ArrayList<Huesped> buscarHuespedPorId(int id) throws SQLException {
+		ArrayList<Huesped> resultado = new ArrayList<Huesped>();
+		
+		if (!conectar().equals("conectado")) {
+			return resultado;
+		}
+		
+		ResultSet resultSet = null;
+
+		String consulta = "SELECT nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva FROM huespedes WHERE id_reserva = ?";
+
+
+		try {
+			preStatement = connection.prepareStatement(consulta);
+			preStatement.setInt(1, id);
+			resultSet = preStatement.executeQuery();
+			
+            
+            if(resultSet.next()) {
+            	resultado.add(new Huesped(
+            		resultSet.getString(1),
+            		resultSet.getString(2),        				
+    				resultSet.getDate(3),
+    				resultSet.getString(4),
+    				resultSet.getString(5),
+    				resultSet.getInt(6)
+    			));
+            }
+		
+		} catch (SQLException e) {
+			System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+			
+		} catch (Exception e) {
+			System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+			
+		} finally {
+			preStatement.close();
+			connection.close();
+			conexion.desconectar();
+		}
+		
+		return resultado;
+	}
+
+	public ArrayList<Huesped> buscarHuespedPorApellido(String apellido) throws SQLException {
+		ArrayList<Huesped> resultado = new ArrayList<Huesped>();
+		
+		if (!conectar().equals("conectado")) {
+			return resultado;
+		}
+		
+		ResultSet resultSet = null;
+
+		String consulta = "SELECT nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva FROM huespedes WHERE apellido LIKE CONCAT( '%',?,'%')";
+		
+		try {			
+			preStatement = connection.prepareStatement(consulta);
+			preStatement.setString(1, apellido);
+			resultSet = preStatement.executeQuery();			
+            
+            while(resultSet.next()) {
+            	resultado.add(new Huesped(
+            		resultSet.getString(1),
+            		resultSet.getString(2),        				
+    				resultSet.getDate(3),
+    				resultSet.getString(4),
+    				resultSet.getString(5),
+    				resultSet.getInt(6)
+    			));
+            }
+		
+		} catch (SQLException e) {
+			System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+			
+		} catch (Exception e) {
+			System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+			
+		} finally {
+			preStatement.close();
+			connection.close();
+			conexion.desconectar();
+		}
+		
+		return resultado;
+	}
 }

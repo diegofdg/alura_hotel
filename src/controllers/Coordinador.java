@@ -153,4 +153,17 @@ public class Coordinador {
 	public int guardarHuesped(Huesped huesped) throws SQLException {
 		return miHuespedDAO.guardarHuesped(huesped);
 	}
+
+	public ArrayList<Huesped> buscarHuespedPorId(int id) throws SQLException {
+		return miHuespedDAO.buscarHuespedPorId(id);
+	}
+
+	public ArrayList<Huesped> buscarHuespedPorApellido(String apellido) throws SQLException {
+		return miHuespedDAO.buscarHuespedPorApellido(apellido);
+		
+	}
+
+	public ArrayList<Reserva> buscarReservaPorId(int id) throws SQLException {
+		return miReservaDAO.buscarReservaPorId(id);
+	}
 }

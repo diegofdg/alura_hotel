@@ -123,4 +123,48 @@ public class ReservaDAO {
 	public void setCoordinador(Coordinador miCoordinador) {
 		this.miCoordinador = miCoordinador;
 	}
+
+	public ArrayList<Reserva> buscarReservaPorId(int id) throws SQLException {		
+			ArrayList<Reserva> resultado = new ArrayList<Reserva>();
+			
+			if (!conectar().equals("conectado")) {
+				return resultado;
+			}
+			
+			ResultSet resultSet = null;
+
+			String consulta = "SELECT id, fecha_entrada, fecha_salida, valor, forma_pago FROM reservas WHERE id = ?";
+
+			try {
+				preStatement = connection.prepareStatement(consulta);
+				preStatement.setInt(1, id);
+				resultSet = preStatement.executeQuery();
+				
+	            
+	            if(resultSet.next()) {
+	            	Reserva reserva = new Reserva(
+	            			resultSet.getDate(2),
+	                		resultSet.getDate(3),        				
+	        				resultSet.getInt(4),
+	        				resultSet.getString(5)
+	        		);
+	                reserva.setId(resultSet.getInt(1));
+	                	
+	                resultado.add(reserva);         
+	            }
+			
+			} catch (SQLException e) {
+				System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+				
+			} catch (Exception e) {
+				System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+				
+			} finally {
+				preStatement.close();
+				connection.close();
+				conexion.desconectar();
+			}
+			
+			return resultado;
+		}	
 }
