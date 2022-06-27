@@ -14,9 +14,9 @@ import models.Huesped;
 public class HuespedDAO {
 	
 	private Coordinador miCoordinador;
-	Connection connection = null;
-	Conexion conexion = null;
-	PreparedStatement preStatement = null;
+	private Connection connection = null;
+	private Conexion conexion = null;
+	private PreparedStatement preStatement = null;
 	
 	private String conectar() {
 		conexion = new Conexion();
@@ -62,14 +62,23 @@ public class HuespedDAO {
                 resultado = resultSet.getInt(1);
                 
                 System.out.println(String.format("Fue insertado el huesped con id: " +resultado));
-            }
-            
+            }            
 		
 		} catch (SQLException e) {
-			System.out.println("No se pudo registrar el huesped " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo registrar el huesped",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} catch (Exception e) {
-			System.out.println("No se pudo registrar el huesped " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo registrar el huesped",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} finally {
 			preStatement.close();
@@ -110,10 +119,20 @@ public class HuespedDAO {
             }
 		
 		} catch (SQLException e) {
-			System.out.println("No se pudo registrar la reserva " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo listar los huespedes",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} catch (Exception e) {
-			System.out.println("No se pudo registrar la reserva " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo listar los huespedes",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} finally {
 			preStatement.close();
@@ -154,10 +173,20 @@ public class HuespedDAO {
             }
 		
 		} catch (SQLException e) {
-			System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo realizar la búsqueda",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} catch (Exception e) {
-			System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo realizar la búsqueda",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} finally {
 			preStatement.close();
@@ -196,10 +225,20 @@ public class HuespedDAO {
             }
 		
 		} catch (SQLException e) {
-			System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo realizar la búsqueda",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);			
 			
 		} catch (Exception e) {
-			System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo realizar la búsqueda",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} finally {
 			preStatement.close();
@@ -233,17 +272,26 @@ public class HuespedDAO {
 			final ResultSet resultSet = preStatement.getGeneratedKeys();		    
             
             while (resultSet.next()) {
-                resultado = resultSet.getInt(1);
-                
+                resultado = resultSet.getInt(1);                
                 System.out.println(String.format("Fue editado el huesped con id: " +resultado));
             }
             
 		
 		} catch (SQLException e) {
-			System.out.println("No se pudo editar el huesped " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo editar el huesped",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} catch (Exception e) {
-			System.out.println("No se pudo editar el huesped " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo editar el huesped",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} finally {
 			preStatement.close();

@@ -204,13 +204,14 @@ public class RegistroHuesped extends JFrame implements ActionListener {
 				
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(
-					this,
-					"Ha ocurrido un error!!!"
-				);
+					null,
+					"Ha ocurrido un error",
+					"Error",
+					JOptionPane.ERROR_MESSAGE
+				);				
 				mensaje = "Error";
 			}
-		}
-		
+		}		
 		return mensaje;
 	}
 

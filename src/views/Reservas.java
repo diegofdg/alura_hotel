@@ -110,11 +110,11 @@ public class Reservas extends JFrame implements ActionListener {
 		lblFormaPago.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel.add(lblFormaPago);
 		
-		JLabel lblNewLabel_4 = new JLabel("Sistema de Reservas");
-		lblNewLabel_4.setBounds(108, 93, 199, 42);
-		lblNewLabel_4.setForeground(new Color(65, 105, 225));
-		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 20));
-		panel.add(lblNewLabel_4);
+		JLabel lblTitulo = new JLabel("Sistema de Reservas");
+		lblTitulo.setBounds(108, 93, 199, 42);
+		lblTitulo.setForeground(new Color(65, 105, 225));
+		lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
+		panel.add(lblTitulo);
 		
 		btnContinuar = new JButton("Continuar");		
 		btnContinuar.setForeground(Color.WHITE);
@@ -131,11 +131,11 @@ public class Reservas extends JFrame implements ActionListener {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(0, -16, 500, 539);
-		panel_1.add(lblNewLabel);
-		lblNewLabel.setBackground(Color.WHITE);
-		lblNewLabel.setIcon(new ImageIcon(Reservas.class.getResource("/imagenes/reservas-img-2.png")));
+		JLabel lblImagen = new JLabel("");
+		lblImagen.setBounds(0, -16, 500, 539);
+		panel_1.add(lblImagen);
+		lblImagen.setBackground(Color.WHITE);
+		lblImagen.setIcon(new ImageIcon(Reservas.class.getResource("/imagenes/reservas-img-2.png")));
 		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(Reservas.class.getResource("/imagenes/Ha-100px.png")));
@@ -178,9 +178,11 @@ public class Reservas extends JFrame implements ActionListener {
 				miCoordinador.mostrarRegistroHuesped(id_reserva);				
 			} else {
 				JOptionPane.showMessageDialog(
-					this,
-					"Ha ocurrido un error!!!"
-				);
+					null,
+					"Ha ocurrido un error",
+					"Error",
+					JOptionPane.ERROR_MESSAGE
+				);				
 			}
 		}
 		
@@ -196,27 +198,31 @@ public class Reservas extends JFrame implements ActionListener {
 		if(txtFechaE.getDate() != null && txtFechaS.getDate() != null) {
 			String fechaE = ((JTextField)txtFechaE.getDateEditor().getUiComponent()).getText();
 			String fechaS = ((JTextField)txtFechaS.getDateEditor().getUiComponent()).getText();
-			Reserva reserva = new Reserva(
-				java.sql.Date.valueOf(fechaE),
-				java.sql.Date.valueOf(fechaS),
-				Integer.parseInt(txtValor.getText()),
-				(String) txtFormaPago.getSelectedItem());
-			
+			Reserva reserva = new Reserva();
+			reserva.setFecha_entrada(java.sql.Date.valueOf(fechaE));
+			reserva.setFecha_salida(java.sql.Date.valueOf(fechaS));
+			reserva.setValor(Integer.parseInt(txtValor.getText()));
+			reserva.setForma_pago((String) txtFormaPago.getSelectedItem());
+				
 			try {
 				resultado = miCoordinador.guardarReserva(reserva);
 				if(resultado != 0) {
 					JOptionPane.showMessageDialog(
-						this,
-						"Registro guardado correctamente"
-					);
+						null,
+						"Ha ocurrido un error",
+						"Error",
+						JOptionPane.ERROR_MESSAGE
+					);					
 					limpiarCampos();					
 				}				
 				return resultado;
 				
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(
-					this,
-					"Ha ocurrido un error!!!"
+					null,
+					"Ha ocurrido un error",
+					"Error",
+					JOptionPane.ERROR_MESSAGE
 				);
 				return resultado;
 			}
@@ -246,7 +252,6 @@ public class Reservas extends JFrame implements ActionListener {
 			valor = dias * diaria;
 			txtValor.setText(""+valor);
 		}
-		
 	}
 	
 	public void setCoordinador(Coordinador miCoordinador) {

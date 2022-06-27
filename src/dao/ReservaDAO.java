@@ -14,13 +14,13 @@ import models.Reserva;
 public class ReservaDAO {
 	
 	private Coordinador miCoordinador;
-	Connection connection = null;
-	Conexion conexion = null;
-	PreparedStatement preStatement = null;
+	private Connection connection = null;
+	private Conexion conexion = null;
+	private PreparedStatement preStatement = null;
 	
 	private String conectar() {
 		conexion = new Conexion();
-		String resultado=conexion.conectar();
+		String resultado = conexion.conectar();
 		
 		if (resultado.equals("conectado")) {
 			connection = conexion.getConnection();
@@ -36,8 +36,7 @@ public class ReservaDAO {
 		return resultado;
 	}
 	
-	public int guardarReserva(Reserva reserva) throws SQLException {
-		
+	public int guardarReserva(Reserva reserva) throws SQLException {		
 		int resultado = 0;
 		
 		if (!conectar().equals("conectado")) {
@@ -55,21 +54,29 @@ public class ReservaDAO {
 			preStatement.setString(4, reserva.getForma_pago());			
 			preStatement.execute();
 
-
 			final ResultSet resultSet = preStatement.getGeneratedKeys();		    
             
             while (resultSet.next()) {
                 resultado = resultSet.getInt(1);
                 
                 System.out.println(String.format("Fue insertada la reserva con id: " +resultado));
-            }
-            
+            }            
 		
 		} catch (SQLException e) {
-			System.out.println("No se pudo registrar la reserva " + e.getMessage());			
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo registrar la reserva",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} catch (Exception e) {
-			System.out.println("No se pudo registrar la reserva " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo registrar la reserva",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} finally {
 			preStatement.close();
@@ -94,22 +101,30 @@ public class ReservaDAO {
 			final ResultSet resultSet = preStatement.executeQuery();		    
             
             while (resultSet.next()) {
-            	Reserva reserva = new Reserva(
-        			resultSet.getDate(2),
-            		resultSet.getDate(3),        				
-    				resultSet.getInt(4),
-    				resultSet.getString(5)
-    			);
+            	Reserva reserva = new Reserva();
             	reserva.setId(resultSet.getInt(1));
-            	
+            	reserva.setFecha_entrada(resultSet.getDate(2));
+            	reserva.setFecha_salida(resultSet.getDate(3));
+            	reserva.setValor(resultSet.getInt(4));
+            	reserva.setForma_pago(resultSet.getString(5));            	
                 resultado.add(reserva);                
             }            
 		
 		} catch (SQLException e) {
-			System.out.println("No se pudo registrar la reserva " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo listar las reservas",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} catch (Exception e) {
-			System.out.println("No se pudo registrar la reserva " + e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo listar las reservas",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			
 		} finally {
 			preStatement.close();
@@ -138,26 +153,33 @@ public class ReservaDAO {
 			try {
 				preStatement = connection.prepareStatement(consulta);
 				preStatement.setInt(1, id);
-				resultSet = preStatement.executeQuery();
-				
+				resultSet = preStatement.executeQuery();				
 	            
 	            if(resultSet.next()) {
-	            	Reserva reserva = new Reserva(
-	            			resultSet.getDate(2),
-	                		resultSet.getDate(3),        				
-	        				resultSet.getInt(4),
-	        				resultSet.getString(5)
-	        		);
-	                reserva.setId(resultSet.getInt(1));
-	                	
-	                resultado.add(reserva);         
+	            	Reserva reserva = new Reserva();
+	            	reserva.setId(resultSet.getInt(1));
+	            	reserva.setFecha_entrada(resultSet.getDate(2));
+	            	reserva.setFecha_salida(resultSet.getDate(3));
+	            	reserva.setValor(resultSet.getInt(4));
+	            	reserva.setForma_pago(resultSet.getString(5));            	
+	                resultado.add(reserva);        
 	            }
 			
 			} catch (SQLException e) {
-				System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+				JOptionPane.showMessageDialog(
+					null,
+					"No se pudo realizar la búsqueda",
+					"Error",
+					JOptionPane.ERROR_MESSAGE
+				);
 				
 			} catch (Exception e) {
-				System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+				JOptionPane.showMessageDialog(
+					null,
+					"No se pudo realizar la búsqueda",
+					"Error",
+					JOptionPane.ERROR_MESSAGE
+				);
 				
 			} finally {
 				preStatement.close();
@@ -166,5 +188,57 @@ public class ReservaDAO {
 			}
 			
 			return resultado;
-		}	
+		}
+
+	public int editarReserva(Reserva reserva) throws SQLException {
+		int resultado = 0;
+		
+		if (!conectar().equals("conectado")) {
+			return resultado;
+		}
+		
+		String consulta = "UPDATE reservas SET fecha_entrada = ?, fecha_salida = ?, valor = ?, forma_pago = ? WHERE id = ?";
+
+		try {
+			preStatement = connection.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+			preStatement.setDate(1, reserva.getFecha_entrada());
+			preStatement.setDate(2, reserva.getFecha_salida());
+			preStatement.setInt(3, reserva.getValor());
+			preStatement.setString(4, reserva.getForma_pago());			
+			preStatement.setInt(5, reserva.getId());
+			preStatement.execute();
+
+			final ResultSet resultSet = preStatement.getGeneratedKeys();		    
+            
+            while (resultSet.next()) {
+                resultado = resultSet.getInt(1);
+                
+                System.out.println(String.format("Fue editada la reserva con id: " +resultado));
+            }
+            
+		
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo editar la reserva",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(
+				null,
+				"No se pudo editar la reserva",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
+			
+		} finally {
+			preStatement.close();
+			connection.close();
+			conexion.desconectar();
+		}
+		
+		return resultado;
+	}	
 }

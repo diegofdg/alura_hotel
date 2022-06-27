@@ -80,8 +80,7 @@ public class Login extends JFrame implements ActionListener {
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(Login.class.getResource("/imagenes/Ha-100px.png")));
 		lblLogo.setBounds(470, 30, 103, 94);
-		contentPane.add(lblLogo);
-		
+		contentPane.add(lblLogo);		
 	}
 	
 	@Override
@@ -107,12 +106,11 @@ public class Login extends JFrame implements ActionListener {
 				}
 			} catch (SQLException e1) {
 				JOptionPane.showMessageDialog(
-						null,
-						"Ha ocurrido un error, intente nuevamente",
-						"Advertencia",
-						JOptionPane.WARNING_MESSAGE
-					);
-				e1.printStackTrace();
+					null,
+					"Ha ocurrido un error, intente nuevamente",
+					"Advertencia",
+					JOptionPane.WARNING_MESSAGE
+				);
 			}			
 		}
 		

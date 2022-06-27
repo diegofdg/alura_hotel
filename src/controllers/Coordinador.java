@@ -171,4 +171,8 @@ public class Coordinador {
 		return miHuespedDAO.editarHuesped(huesped);
 		
 	}
+
+	public int editarReserva(Reserva reserva) throws SQLException {
+		return miReservaDAO.editarReserva(reserva);		
+	}
 }

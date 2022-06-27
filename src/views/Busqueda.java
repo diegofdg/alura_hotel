@@ -183,9 +183,11 @@ public class Busqueda extends JFrame implements ActionListener {
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(
-				this,
-				"Ha ocurrido un error!!!"
-			);		
+				null,
+				"Ha ocurrido un error",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 		}
 	}
 
@@ -202,8 +204,7 @@ public class Busqueda extends JFrame implements ActionListener {
     				huesped.getId_reserva()
                 }
             );
-		 });
-		
+		 });		
 	}
 
 	private void llenarTablaReservas(ArrayList<Reserva> listaReservas) {
@@ -237,8 +238,10 @@ public class Busqueda extends JFrame implements ActionListener {
 					
 					if(texto.isEmpty()) {
 						JOptionPane.showMessageDialog(
-							this,
-							"Ingresa un número para buscar por id"
+							null,
+							"Ingresa un número para buscar por id",
+							"Error",
+							JOptionPane.ERROR_MESSAGE
 						);
 						limpiarTabla("tabla huespedes");
 						llenarTablaHuespedes(listaHuespedes);
@@ -253,25 +256,31 @@ public class Busqueda extends JFrame implements ActionListener {
 								llenarTablaHuespedes(listaFiltradaHuespedes);
 							} else {
 								JOptionPane.showMessageDialog(
-										this,
-										"No existen registros que coincidan con la busqueda ingresada"
-										);						
+									null,
+									"No existen registros que coincidan con la busqueda ingresada",
+									"Error",
+									JOptionPane.ERROR_MESSAGE
+								);
 								limpiarTabla("tabla huespedes");
 								llenarTablaHuespedes(listaHuespedes);								
 							}
 					        
 					    } catch(NumberFormatException e1) {
 					    	JOptionPane.showMessageDialog(
-								this,
-								"Debes ingresar un número válido como id"
-					    	);
+								null,
+								"Debes ingresar un número válido como id",
+								"Error",
+								JOptionPane.ERROR_MESSAGE
+							);
 					    	limpiarTabla("tabla huespedes");
 							llenarTablaHuespedes(listaHuespedes);
 					    	
 					    } catch(SQLException e2) {
 					    	JOptionPane.showMessageDialog(
-								this,
-								"Ha ocurrido un error"
+								null,
+								"Ha ocurrido un error",
+								"Error",
+								JOptionPane.ERROR_MESSAGE
 							);
 					    	limpiarTabla("tabla huespedes");
 							llenarTablaHuespedes(listaHuespedes);
@@ -281,8 +290,10 @@ public class Busqueda extends JFrame implements ActionListener {
 				} else if(rdbtnApellido.isSelected() ) {
 					if(texto.isEmpty() || texto.length() < 3) {
 						JOptionPane.showMessageDialog(
-							this,
-							"Ingresa al menos tres caracteres para poder buscar"
+							null,
+							"Ingresa al menos tres caracteres para poder buscar",
+							"Error",
+							JOptionPane.ERROR_MESSAGE
 						);
 						limpiarTabla("tabla huespedes");
 						llenarTablaHuespedes(listaHuespedes);
@@ -296,29 +307,35 @@ public class Busqueda extends JFrame implements ActionListener {
 							llenarTablaHuespedes(listaFiltradaHuespedes);
 						} else {
 							JOptionPane.showMessageDialog(
-								this,
-								"No existen registros que coincidan con la busqueda ingresada"
-							);						
+								null,
+								"No existen registros que coincidan con la busqueda ingresada",
+								"Error",
+								JOptionPane.ERROR_MESSAGE
+							);													
 							limpiarTabla("tabla huespedes");
 							llenarTablaHuespedes(listaHuespedes);								
 						}
 				        
 				    } catch(SQLException e1) {
 				    	JOptionPane.showMessageDialog(
-				    			this,
-				    			"Ha ocurrido un error"
-				    			);
+							null,
+							"Ha ocurrido un error",
+							"Error",
+							JOptionPane.ERROR_MESSAGE
+						);
 				    	limpiarTabla("tabla huespedes");
 						llenarTablaHuespedes(listaHuespedes);
-				    }					
-				}				
+				    }
+				}
 			} else if(panelSeleccionado == 1) {
 				if(rdbtnId.isSelected()) {
 					
 					if(texto.isEmpty()) {
 						JOptionPane.showMessageDialog(
-							this,
-							"Ingresa un número para buscar por id"
+							null,
+							"Ingresa un número para buscar por id",
+							"Error",
+							JOptionPane.ERROR_MESSAGE
 						);
 						limpiarTabla("tabla reservas");
 						llenarTablaReservas(listaReservas);
@@ -333,36 +350,44 @@ public class Busqueda extends JFrame implements ActionListener {
 								llenarTablaReservas(listaFiltradaReservas);								
 							} else {
 								JOptionPane.showMessageDialog(
-										this,
-										"No existen registros que coincidan con la busqueda ingresada"
-										);						
+									null,
+									"No existen registros que coincidan con la busqueda ingresada",
+									"Error",
+									JOptionPane.ERROR_MESSAGE
+								);
 								limpiarTabla("tabla reservas");
 								llenarTablaReservas(listaReservas);								
 							}
 					        
 					    } catch(NumberFormatException e1) {
 					    	JOptionPane.showMessageDialog(
-					    			this,
-					    			"Debes ingresar un número válido como id"
-					    			);
+								null,
+								"Debes ingresar un número válido como id",
+								"Error",
+								JOptionPane.ERROR_MESSAGE
+							);
 					    	limpiarTabla("tabla reservas");
 							llenarTablaReservas(listaReservas);
 					    	
 					    } catch(SQLException e2) {
 					    	JOptionPane.showMessageDialog(
-					    			this,
-					    			"Ha ocurrido un error"
-					    			);
-					    	limpiarTabla("tabla reservas");
+								null,
+								"Ha ocurrido un error",
+								"Error",
+								JOptionPane.ERROR_MESSAGE
+							);
+						    limpiarTabla("tabla reservas");
 							llenarTablaReservas(listaReservas);
 					    }
 					}
 					
 				} else if(rdbtnApellido.isSelected()) {
 					JOptionPane.showMessageDialog(
-							this,
-							"No es posible buscar por Apellido en la pestaña de Reservas"
-							);
+						null,
+						"No es posible buscar por Apellido en la pestaña de Reservas",
+						"Error",
+						JOptionPane.ERROR_MESSAGE
+					);
 					limpiarTabla("tabla reservas");
 					llenarTablaReservas(listaReservas);
 				}
@@ -374,8 +399,10 @@ public class Busqueda extends JFrame implements ActionListener {
 			if(panelSeleccionado == 0) {
 				if (tieneFilaElegida(tbHuespedes)) {
 					JOptionPane.showMessageDialog(
-						this,
-						"Por favor, elije un item"
+						null,
+						"Por favor, elije un item",
+						"Error",
+						JOptionPane.ERROR_MESSAGE
 					);
 					tbHuespedes.clearSelection();
 					tbReservas.clearSelection();
@@ -403,18 +430,66 @@ public class Busqueda extends JFrame implements ActionListener {
 		            	nuevoHuesped.setTelefono(telefono);
 		            	nuevoHuesped.setId_reserva(id_reserva);
 						miCoordinador.editarHuesped(nuevoHuesped);
-						JOptionPane.showMessageDialog(this, "Se modificó con éxito");
 						
-					} catch (SQLException e1) {						
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(
+							null,
+							"Se modificó con éxito",
+							"Exito",
+							JOptionPane.INFORMATION_MESSAGE
+						);
+						
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(
+							null,
+							"Ha ocurrido un error",
+							"Error",
+							JOptionPane.ERROR_MESSAGE
+						);
 					}											
 				}	
 				
 			} else if(panelSeleccionado == 1) {
-				System.out.println("Editando Reservas");
-			}
-	        
-			System.out.println("Editando...");			
+				if (tieneFilaElegida(tbReservas)) {
+					JOptionPane.showMessageDialog(
+						null,
+						"Por favor, elije un item",
+						"Error",
+						JOptionPane.ERROR_MESSAGE
+					);
+					tbHuespedes.clearSelection();
+					tbReservas.clearSelection();
+					return;
+					
+				} else {
+					try {
+						int fila = tbReservas.getSelectedRow();
+						Integer id = Integer.valueOf(tbReservas.getValueAt(fila, 0).toString());
+						String fechaEntrada = tbReservas.getValueAt(fila, 1).toString();
+						java.sql.Date fechaEntradaSql = java.sql.Date.valueOf(fechaEntrada);				        
+						String fechaSalida = tbReservas.getValueAt(fila, 2).toString();
+						java.sql.Date fechaSalidaSql = java.sql.Date.valueOf(fechaSalida);
+						Integer valor = Integer.valueOf(tbReservas.getValueAt(fila, 3).toString());						
+						String formaPago = tbReservas.getValueAt(fila, 4).toString();
+						
+						Reserva nuevaReserva = new Reserva();
+						nuevaReserva.setId(id);
+						nuevaReserva.setFecha_entrada(fechaEntradaSql);
+		            	nuevaReserva.setFecha_salida(fechaSalidaSql);
+		            	nuevaReserva.setValor(valor);;
+		            	nuevaReserva.setForma_pago(formaPago);
+		            	miCoordinador.editarReserva(nuevaReserva);
+						JOptionPane.showMessageDialog(this, "Se modificó con éxito");
+						
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(
+							null,
+							"Ha ocurrido un error",
+							"Error",
+							JOptionPane.ERROR_MESSAGE
+						);
+					}											
+				}	
+			}			
 		}
 		
 		if(e.getSource() == btnEliminar) {

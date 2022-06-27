@@ -15,44 +15,44 @@ import views.Reservas;
 public class Relaciones {
 	
 	public void iniciar() {
-		MenuPrincipal miMenuPrincipal = new MenuPrincipal();
-		Login miLogin = new Login();
-		Funciones misFunciones = new Funciones();
-		MenuUsuario miMenuUsuario = new MenuUsuario();
-		UsuarioDAO miUsuarioDAO = new UsuarioDAO();
-		Reservas misReservas = new Reservas();
-		ReservaDAO miReservaDAO = new ReservaDAO();
-		Busqueda miBusqueda = new Busqueda();
-		RegistroHuesped miRegistroHuesped = new RegistroHuesped();
 		HuespedDAO miHuespedDAO = new HuespedDAO();
+		ReservaDAO miReservaDAO = new ReservaDAO();
+		UsuarioDAO miUsuarioDAO = new UsuarioDAO();
+		Funciones misFunciones = new Funciones();
+		Busqueda miBusqueda = new Busqueda();
 		Exito miExito = new Exito();
+		Login miLogin = new Login();
+		MenuPrincipal miMenuPrincipal = new MenuPrincipal();
+		MenuUsuario miMenuUsuario = new MenuUsuario();
+		RegistroHuesped miRegistroHuesped = new RegistroHuesped();
+		Reservas misReservas = new Reservas();
 		Coordinador miCoordinador = new Coordinador();
 		
 		// Se establecen las relaciones entre clases
-		miMenuPrincipal.setCoordinador(miCoordinador);		
-		miLogin.setCoordinador(miCoordinador);
-		misFunciones.setCoordinador(miCoordinador);
-		miMenuUsuario.setCoordinador(miCoordinador);
-		misReservas.setCoordinador(miCoordinador);
-		miUsuarioDAO.setCoordinador(miCoordinador);
-		miBusqueda.setCoordinador(miCoordinador);
-		miReservaDAO.setCoordinador(miCoordinador);
 		miHuespedDAO.setCoordinador(miCoordinador);
+		miReservaDAO.setCoordinador(miCoordinador);
+		miUsuarioDAO.setCoordinador(miCoordinador);
+		misFunciones.setCoordinador(miCoordinador);
+		miBusqueda.setCoordinador(miCoordinador);
 		miExito.setCoordinador(miCoordinador);
+		miLogin.setCoordinador(miCoordinador);
+		miMenuPrincipal.setCoordinador(miCoordinador);		
+		miMenuUsuario.setCoordinador(miCoordinador);
 		miRegistroHuesped.setCoordinador(miCoordinador);
+		misReservas.setCoordinador(miCoordinador);
 		
 		// Se establecen relaciones con la clase Coordinador
-		miCoordinador.setMenuPrincipal(miMenuPrincipal);
-		miCoordinador.setLogin(miLogin);
-		miCoordinador.setFunciones(misFunciones);
-		miCoordinador.setMenuUsuario(miMenuUsuario);
-		miCoordinador.setUsuarioDAO(miUsuarioDAO);
-		miCoordinador.setMisReservas(misReservas);
-		miCoordinador.setMiBusqueda(miBusqueda);
-		miCoordinador.setMiReservaDAO(miReservaDAO);
-		miCoordinador.setMiRegistroHuesped(miRegistroHuesped);
 		miCoordinador.setMiHuespedDAO(miHuespedDAO);
+		miCoordinador.setMiReservaDAO(miReservaDAO);
+		miCoordinador.setUsuarioDAO(miUsuarioDAO);
+		miCoordinador.setFunciones(misFunciones);
+		miCoordinador.setMiBusqueda(miBusqueda);
 		miCoordinador.setMiExito(miExito);
+		miCoordinador.setLogin(miLogin);
+		miCoordinador.setMenuPrincipal(miMenuPrincipal);
+		miCoordinador.setMenuUsuario(miMenuUsuario);
+		miCoordinador.setMiRegistroHuesped(miRegistroHuesped);
+		miCoordinador.setMisReservas(misReservas);
 		
 		miCoordinador.mostrarMenuPrincipal();
 	}

@@ -4,18 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.swing.JOptionPane;
-
 import conexion.Conexion;
 import controllers.Coordinador;
 
 public class UsuarioDAO {
 	
 	private Coordinador miCoordinador;
-	Connection connection = null;
-	Conexion conexion = null;
-	PreparedStatement preStatement = null;
+	private Connection connection = null;
+	private Conexion conexion = null;
+	private PreparedStatement preStatement = null;
 	
 	private String conectar() {
 		conexion = new Conexion();
@@ -58,7 +56,12 @@ public class UsuarioDAO {
 			return false;
 			   
 		} catch (SQLException e) {
-			System.out.println("Error: "+e.getMessage());
+			JOptionPane.showMessageDialog(
+				null,
+				"Ha ocurrido un error",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 			return false;
 			
 		} finally {
