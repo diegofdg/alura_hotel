@@ -20,6 +20,8 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
@@ -109,9 +111,9 @@ public class Busqueda extends JFrame implements ActionListener {
 		tbHuespedes.setFont(new Font("Arial", Font.PLAIN, 14));
 		tbHuespedes.setModel(new DefaultTableModel(
 			new Object [][] { },
-            new String [] { "Nombre", "Apellido", "Fecha de Nacimiento", "Nacionalidad", "Teléfono", "ID Reserva" }
+            new String [] { "Id", "Nombre", "Apellido", "Fecha de Nacimiento", "Nacionalidad", "Teléfono", "ID Reserva" }
 	    ) {
-	        boolean[] canEdit = new boolean [] { true, true, true, true, true, false };
+	        boolean[] canEdit = new boolean [] { false, true, true, true, true, true, false };
 	        public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
@@ -191,6 +193,7 @@ public class Busqueda extends JFrame implements ActionListener {
 		listaHuespedes.forEach((huesped) -> {
             modeloH.addRow(
                 new Object[]{	                        
+            		huesped.getId(),
             		huesped.getNombre(),
     				huesped.getApellido(),
     				huesped.getFecha_nacimiento(),
@@ -364,11 +367,53 @@ public class Busqueda extends JFrame implements ActionListener {
 					llenarTablaReservas(listaReservas);
 				}
 			}	
-		}	
+		}
 		
 		if(e.getSource() == btnEditar) {
-			int selectedIndex = panel.getSelectedIndex();
-	        System.out.println("Panel Seleccionado" + selectedIndex);
+			int panelSeleccionado = panel.getSelectedIndex();
+			if(panelSeleccionado == 0) {
+				if (tieneFilaElegida(tbHuespedes)) {
+					JOptionPane.showMessageDialog(
+						this,
+						"Por favor, elije un item"
+					);
+					tbHuespedes.clearSelection();
+					tbReservas.clearSelection();
+					return;
+					
+				} else {
+					try {
+						int fila = tbHuespedes.getSelectedRow();
+						Integer id = Integer.valueOf(tbHuespedes.getValueAt(fila, 0).toString());
+						String nombre = tbHuespedes.getValueAt(fila, 1).toString();
+						String apellido = tbHuespedes.getValueAt(fila, 2).toString();
+						
+						String nacimiento = tbHuespedes.getValueAt(fila, 3).toString();
+						java.sql.Date fechaSql = java.sql.Date.valueOf(nacimiento);				        
+						
+						String nacionalidad = tbHuespedes.getValueAt(fila, 4).toString();
+						String telefono = tbHuespedes.getValueAt(fila, 5).toString();
+						Integer id_reserva = Integer.valueOf(tbHuespedes.getValueAt(fila, 6).toString());
+						Huesped nuevoHuesped = new Huesped();
+						nuevoHuesped.setId(id);
+						nuevoHuesped.setNombre(nombre);
+		            	nuevoHuesped.setApellido(apellido);
+		            	nuevoHuesped.setFecha_nacimiento(fechaSql);
+		            	nuevoHuesped.setNacionalidad(nacionalidad);
+		            	nuevoHuesped.setTelefono(telefono);
+		            	nuevoHuesped.setId_reserva(id_reserva);
+						miCoordinador.editarHuesped(nuevoHuesped);
+						JOptionPane.showMessageDialog(this, "Se modificó con éxito");
+						
+					} catch (SQLException e1) {						
+						e1.printStackTrace();
+					}											
+				}	
+				
+			} else if(panelSeleccionado == 1) {
+				System.out.println("Editando Reservas");
+			}
+	        
 			System.out.println("Editando...");			
 		}
 		
@@ -384,6 +429,35 @@ public class Busqueda extends JFrame implements ActionListener {
 			miCoordinador.mostrarMenuUsuario();
 			miCoordinador.ocultarBusqueda();			
 		}
+	}
+
+	private java.sql.Date convertirDateASqlDate(java.util.Date fecha) {
+		// Convertir Date a String
+		SimpleDateFormat formatoSalida = new SimpleDateFormat("yyyy-MM-dd");		
+        String fechaFormateada = formatoSalida.format(fecha);
+        
+        // Convertir String a Sql Date
+        java.sql.Date fechaSql = java.sql.Date.valueOf(fechaFormateada);
+        return fechaSql;
+	}
+	
+	private java.util.Date convertirStringADate(String fecha) {
+		java.util.Date fechaDate = null;		
+		
+		try {
+			// Convertir String a java.util.Date
+			SimpleDateFormat formatoDate = new SimpleDateFormat("yyyy-MM-dd");
+			fechaDate = formatoDate.parse(fecha);
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return fechaDate;		
+	}
+
+	private boolean tieneFilaElegida(JTable tabla) {
+		boolean resultado = tabla.getSelectedRowCount() == 0 || tabla.getSelectedColumnCount() == 0;
+		return resultado;
 	}
 
 	private int getPanelSeleccionado() {

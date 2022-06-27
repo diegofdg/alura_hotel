@@ -187,14 +187,13 @@ public class RegistroHuesped extends JFrame implements ActionListener {
 		String mensaje = "";
 		if(txtFechaN.getDate() != null) {
 			String fechaN = ((JTextField)txtFechaN.getDateEditor().getUiComponent()).getText();
-			Huesped huesped = new Huesped(
-				txtNombre.getText(),
-				txtApellido.getText(),
-				java.sql.Date.valueOf(fechaN),
-				(String) txtNacionalidad.getSelectedItem(),
-				txtTelefono.getText(),
-				id_reserva
-			);
+			Huesped huesped = new Huesped();
+        	huesped.setNombre(txtNombre.getText());
+        	huesped.setApellido(txtApellido.getText());
+        	huesped.setFecha_nacimiento(java.sql.Date.valueOf(fechaN));
+        	huesped.setNacionalidad((String) txtNacionalidad.getSelectedItem());
+        	huesped.setTelefono(txtTelefono.getText());
+        	huesped.setId_reserva(id_reserva);
 			
 			try {
 				int resultado = miCoordinador.guardarHuesped(huesped);

@@ -91,21 +91,22 @@ public class HuespedDAO {
 			return resultado;
 		}
 
-		String consulta = "SELECT nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva FROM huespedes";
+		String consulta = "SELECT id, nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva FROM huespedes";
 
 		try {
 			preStatement = connection.prepareStatement(consulta);
 			final ResultSet resultSet = preStatement.executeQuery();		    
             
             while (resultSet.next()) {
-                resultado.add(new Huesped(
-            		resultSet.getString(1),
-            		resultSet.getString(2),        				
-    				resultSet.getDate(3),
-    				resultSet.getString(4),
-    				resultSet.getString(5),
-    				resultSet.getInt(6)
-    			));
+            	Huesped huesped = new Huesped();
+            	huesped.setId(resultSet.getInt(1));
+            	huesped.setNombre(resultSet.getString(2));
+            	huesped.setApellido(resultSet.getString(3));
+            	huesped.setFecha_nacimiento(resultSet.getDate(4));
+            	huesped.setNacionalidad(resultSet.getString(5));
+            	huesped.setTelefono(resultSet.getString(6));
+            	huesped.setId_reserva(resultSet.getInt(7));
+                resultado.add(huesped);
             }
 		
 		} catch (SQLException e) {
@@ -142,14 +143,14 @@ public class HuespedDAO {
 			
             
             if(resultSet.next()) {
-            	resultado.add(new Huesped(
-            		resultSet.getString(1),
-            		resultSet.getString(2),        				
-    				resultSet.getDate(3),
-    				resultSet.getString(4),
-    				resultSet.getString(5),
-    				resultSet.getInt(6)
-    			));
+            	Huesped huesped = new Huesped();
+            	huesped.setNombre(resultSet.getString(1));
+            	huesped.setApellido(resultSet.getString(2));
+            	huesped.setFecha_nacimiento(resultSet.getDate(3));
+            	huesped.setNacionalidad(resultSet.getString(4));
+            	huesped.setTelefono(resultSet.getString(5));
+            	huesped.setId_reserva(resultSet.getInt(6));
+                resultado.add(huesped);
             }
 		
 		} catch (SQLException e) {
@@ -184,14 +185,14 @@ public class HuespedDAO {
 			resultSet = preStatement.executeQuery();			
             
             while(resultSet.next()) {
-            	resultado.add(new Huesped(
-            		resultSet.getString(1),
-            		resultSet.getString(2),        				
-    				resultSet.getDate(3),
-    				resultSet.getString(4),
-    				resultSet.getString(5),
-    				resultSet.getInt(6)
-    			));
+            	Huesped huesped = new Huesped();
+            	huesped.setNombre(resultSet.getString(1));
+            	huesped.setApellido(resultSet.getString(2));
+            	huesped.setFecha_nacimiento(resultSet.getDate(3));
+            	huesped.setNacionalidad(resultSet.getString(4));
+            	huesped.setTelefono(resultSet.getString(5));
+            	huesped.setId_reserva(resultSet.getInt(6));
+                resultado.add(huesped);
             }
 		
 		} catch (SQLException e) {
@@ -199,6 +200,50 @@ public class HuespedDAO {
 			
 		} catch (Exception e) {
 			System.out.println("No se pudo realizar la búsqueda " + e.getMessage());
+			
+		} finally {
+			preStatement.close();
+			connection.close();
+			conexion.desconectar();
+		}
+		
+		return resultado;
+	}
+
+	public int editarHuesped(Huesped huesped) throws SQLException {
+		int resultado = 0;
+		
+		if (!conectar().equals("conectado")) {
+			return resultado;
+		}
+
+		String consulta = "UPDATE huespedes SET nombre = ?, apellido = ?, fecha_nacimiento = ?, nacionalidad = ?, telefono = ?, id_reserva = ? WHERE id = ?";
+
+		try {
+			preStatement = connection.prepareStatement(consulta, Statement.RETURN_GENERATED_KEYS);
+			preStatement.setString(1, huesped.getNombre());
+			preStatement.setString(2, huesped.getApellido());
+			preStatement.setDate(3, huesped.getFecha_nacimiento());
+			preStatement.setString(4, huesped.getNacionalidad());			
+			preStatement.setString(5, huesped.getTelefono());
+			preStatement.setInt(6, huesped.getId_reserva());
+			preStatement.setInt(7, huesped.getId());
+			preStatement.execute();
+
+			final ResultSet resultSet = preStatement.getGeneratedKeys();		    
+            
+            while (resultSet.next()) {
+                resultado = resultSet.getInt(1);
+                
+                System.out.println(String.format("Fue editado el huesped con id: " +resultado));
+            }
+            
+		
+		} catch (SQLException e) {
+			System.out.println("No se pudo editar el huesped " + e.getMessage());
+			
+		} catch (Exception e) {
+			System.out.println("No se pudo editar el huesped " + e.getMessage());
 			
 		} finally {
 			preStatement.close();

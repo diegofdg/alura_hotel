@@ -166,4 +166,9 @@ public class Coordinador {
 	public ArrayList<Reserva> buscarReservaPorId(int id) throws SQLException {
 		return miReservaDAO.buscarReservaPorId(id);
 	}
+
+	public int editarHuesped(Huesped huesped) throws SQLException {
+		return miHuespedDAO.editarHuesped(huesped);
+		
+	}
 }
