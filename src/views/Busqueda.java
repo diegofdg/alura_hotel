@@ -20,8 +20,6 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
@@ -197,7 +195,7 @@ public class Busqueda extends JFrame implements ActionListener {
 	private void llenarTablaHuespedes(ArrayList<Huesped> listaHuespedes) {
 		listaHuespedes.forEach((huesped) -> {
             modeloH.addRow(
-                new Object[]{	                        
+                new Object[]{
             		huesped.getId(),
             		huesped.getNombre(),
     				huesped.getApellido(),
@@ -213,7 +211,7 @@ public class Busqueda extends JFrame implements ActionListener {
 	private void llenarTablaReservas(ArrayList<Reserva> listaReservas) {
 		listaReservas.forEach((reserva) -> {
             modeloR.addRow(
-                new Object[]{	               
+                new Object[]{
                 	reserva.getId(),
             		reserva.getFecha_entrada(),
     				reserva.getFecha_salida(),
@@ -419,7 +417,7 @@ public class Busqueda extends JFrame implements ActionListener {
 						String apellido = tbHuespedes.getValueAt(fila, 2).toString();
 						
 						String nacimiento = tbHuespedes.getValueAt(fila, 3).toString();
-						java.sql.Date fechaSql = java.sql.Date.valueOf(nacimiento);				        
+						java.sql.Date fechaSql = java.sql.Date.valueOf(nacimiento);
 						
 						String nacionalidad = tbHuespedes.getValueAt(fila, 4).toString();
 						String telefono = tbHuespedes.getValueAt(fila, 5).toString();
@@ -632,31 +630,7 @@ public class Busqueda extends JFrame implements ActionListener {
 			miCoordinador.ocultarBusqueda();			
 		}
 	}
-
-	private java.sql.Date convertirDateASqlDate(java.util.Date fecha) {
-		// Convertir Date a String
-		SimpleDateFormat formatoSalida = new SimpleDateFormat("yyyy-MM-dd");		
-        String fechaFormateada = formatoSalida.format(fecha);
-        
-        // Convertir String a Sql Date
-        java.sql.Date fechaSql = java.sql.Date.valueOf(fechaFormateada);
-        return fechaSql;
-	}
 	
-	private java.util.Date convertirStringADate(String fecha) {
-		java.util.Date fechaDate = null;		
-		
-		try {
-			// Convertir String a java.util.Date
-			SimpleDateFormat formatoDate = new SimpleDateFormat("yyyy-MM-dd");
-			fechaDate = formatoDate.parse(fecha);
-			
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return fechaDate;		
-	}
-
 	private boolean tieneFilaElegida(JTable tabla) {
 		boolean resultado = tabla.getSelectedRowCount() == 0 || tabla.getSelectedColumnCount() == 0;
 		return resultado;

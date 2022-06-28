@@ -121,7 +121,7 @@ public class HuespedDAO {
 		
 		ResultSet resultSet = null;
 
-		String consulta = "SELECT nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva FROM huespedes WHERE id_reserva = ?";
+		String consulta = "SELECT id, nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva FROM huespedes WHERE id_reserva = ?";
 
 
 		try {
@@ -131,12 +131,13 @@ public class HuespedDAO {
             
             if(resultSet.next()) {
             	Huesped huesped = new Huesped();
-            	huesped.setNombre(resultSet.getString(1));
-            	huesped.setApellido(resultSet.getString(2));
-            	huesped.setFecha_nacimiento(resultSet.getDate(3));
-            	huesped.setNacionalidad(resultSet.getString(4));
-            	huesped.setTelefono(resultSet.getString(5));
-            	huesped.setId_reserva(resultSet.getInt(6));
+            	huesped.setId(resultSet.getInt(1));
+            	huesped.setNombre(resultSet.getString(2));
+            	huesped.setApellido(resultSet.getString(3));
+            	huesped.setFecha_nacimiento(resultSet.getDate(4));
+            	huesped.setNacionalidad(resultSet.getString(5));
+            	huesped.setTelefono(resultSet.getString(6));
+            	huesped.setId_reserva(resultSet.getInt(7));
                 resultado.add(huesped);
             }
 		
@@ -161,7 +162,7 @@ public class HuespedDAO {
 		
 		ResultSet resultSet = null;
 
-		String consulta = "SELECT nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva FROM huespedes WHERE apellido LIKE CONCAT( '%',?,'%')";
+		String consulta = "SELECT id, nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva FROM huespedes WHERE apellido LIKE CONCAT( '%',?,'%')";
 		
 		try {			
 			preStatement = connection.prepareStatement(consulta);
@@ -170,12 +171,13 @@ public class HuespedDAO {
             
             while(resultSet.next()) {
             	Huesped huesped = new Huesped();
-            	huesped.setNombre(resultSet.getString(1));
-            	huesped.setApellido(resultSet.getString(2));
-            	huesped.setFecha_nacimiento(resultSet.getDate(3));
-            	huesped.setNacionalidad(resultSet.getString(4));
-            	huesped.setTelefono(resultSet.getString(5));
-            	huesped.setId_reserva(resultSet.getInt(6));
+            	huesped.setId(resultSet.getInt(1));
+            	huesped.setNombre(resultSet.getString(2));
+            	huesped.setApellido(resultSet.getString(3));
+            	huesped.setFecha_nacimiento(resultSet.getDate(4));
+            	huesped.setNacionalidad(resultSet.getString(5));
+            	huesped.setTelefono(resultSet.getString(6));
+            	huesped.setId_reserva(resultSet.getInt(7));
                 resultado.add(huesped);
             }
 		

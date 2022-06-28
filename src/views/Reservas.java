@@ -54,7 +54,7 @@ public class Reservas extends JFrame implements ActionListener {
 		contentPane.setBackground(SystemColor.control);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);	
+		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(245,245,245));
@@ -82,7 +82,7 @@ public class Reservas extends JFrame implements ActionListener {
 			public void propertyChange(PropertyChangeEvent evt) {
 				calcularValor(txtFechaE, txtFechaS);
 			}
-		});		
+		});
 		txtFechaS.setDateFormatString("yyyy-MM-dd");
 		txtFechaS.setBounds(88, 234, 235, 33);
 		txtFechaS.getCalendarButton().setBackground(Color.WHITE);
@@ -116,7 +116,7 @@ public class Reservas extends JFrame implements ActionListener {
 		lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
 		panel.add(lblTitulo);
 		
-		btnContinuar = new JButton("Continuar");		
+		btnContinuar = new JButton("Continuar");
 		btnContinuar.setForeground(Color.WHITE);
 		btnContinuar.setBounds(88, 436, 140, 33);
 		btnContinuar.addActionListener(this);
@@ -148,7 +148,7 @@ public class Reservas extends JFrame implements ActionListener {
 		btnSalir.setBackground(Color.WHITE);
 		btnSalir.addActionListener(this);
 		btnSalir.setBounds(279, 436, 44, 33);
-		panel.add(btnSalir);		
+		panel.add(btnSalir);
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
@@ -167,28 +167,73 @@ public class Reservas extends JFrame implements ActionListener {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
-	}	
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnContinuar) {
-			int id_reserva = guardarReserva();
-			
-			if(id_reserva != 0) {
-				miCoordinador.mostrarRegistroHuesped(id_reserva);				
+			if(validarCampos() == true) {
+				if(validarFechas() == true) {
+					int id_reserva = guardarReserva();
+					if(id_reserva != 0) {
+						miCoordinador.mostrarRegistroHuesped(id_reserva);
+					} else {
+						JOptionPane.showMessageDialog(
+							null,
+							"Ha ocurrido un error",
+							"Error",
+							JOptionPane.ERROR_MESSAGE
+						);
+					}
+				} else {
+					JOptionPane.showMessageDialog(
+							null,
+							"La fecha de salida debe ser mayor a la fecha de entrada",
+							"Error",
+							JOptionPane.ERROR_MESSAGE
+					);
+				}
+								
 			} else {
 				JOptionPane.showMessageDialog(
 					null,
-					"Ha ocurrido un error",
+					"Las fechas de salida y entrada son obligatorias",
 					"Error",
 					JOptionPane.ERROR_MESSAGE
-				);				
-			}
+				);
+			}	
 		}
 		
 		if(e.getSource() == btnSalir) {
 			miCoordinador.mostrarMenuUsuario();
-			miCoordinador.ocultarReservas();			
+			miCoordinador.ocultarReservas();
+		}
+	}
+	
+	private boolean validarCampos() {
+		String fechaE = ((JTextField)txtFechaE.getDateEditor().getUiComponent()).getText();
+		String fechaS = ((JTextField)txtFechaS.getDateEditor().getUiComponent()).getText();
+		if(fechaE.isEmpty() | fechaS.isEmpty()) {
+			return false;
+		} else {
+			return true;
+		}
+		
+	}
+
+	private boolean validarFechas() {
+		String fechaE = ((JTextField)txtFechaE.getDateEditor().getUiComponent()).getText();
+		String fechaS = ((JTextField)txtFechaS.getDateEditor().getUiComponent()).getText();
+		if(fechaE.isEmpty() | fechaS.isEmpty()) {
+			return false;
+		} else {
+			java.util.Date fechaEDate = miCoordinador.convertirStringADate(fechaE);
+			java.util.Date fechaSDate = miCoordinador.convertirStringADate(fechaS);
+			if(fechaEDate.compareTo(fechaSDate) >= 0) {
+				return false;
+			} else {
+				return true;
+			}
 		}
 	}
 
@@ -212,8 +257,8 @@ public class Reservas extends JFrame implements ActionListener {
 						"Ha ocurrido un error",
 						"Error",
 						JOptionPane.ERROR_MESSAGE
-					);					
-					limpiarCampos();					
+					);
+					limpiarCampos();
 				} else {
 					JOptionPane.showMessageDialog(
 						null,
@@ -221,7 +266,7 @@ public class Reservas extends JFrame implements ActionListener {
 						"Exito",
 						JOptionPane.INFORMATION_MESSAGE
 					);
-				}			
+				}
 				return resultado;
 				
 			} catch (SQLException e) {
@@ -234,14 +279,14 @@ public class Reservas extends JFrame implements ActionListener {
 				return resultado;
 			}
 		}
-		return resultado;		
+		return resultado;
 	}
 
 	private void limpiarCampos() {
 		this.txtFormaPago.setSelectedIndex(0);
 		this.txtValor.setText("");
 		this.txtFechaE.setCalendar(null);
-		this.txtFechaS.setCalendar(null);		
+		this.txtFechaS.setCalendar(null);
 	}
 
 	private void calcularValor(JDateChooser fechaE, JDateChooser fechaS) {
@@ -249,7 +294,7 @@ public class Reservas extends JFrame implements ActionListener {
 			Calendar inicio = fechaE.getCalendar();
 			Calendar fin = fechaS.getCalendar();
 			int dias = -1;
-			int diaria = 180;
+			int diaria = 580;
 			int valor;
 			
 			while(inicio.before(fin) || inicio.equals(fin)) {

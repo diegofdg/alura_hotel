@@ -2,6 +2,8 @@ package controllers;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+
 import dao.HuespedDAO;
 import dao.ReservaDAO;
 import dao.UsuarioDAO;
@@ -182,5 +184,13 @@ public class Coordinador {
 
 	public String eliminarReserva(Integer id) throws SQLException {
 		return miReservaDAO.eliminarReserva(id);
+	}
+
+	public java.sql.Date convertirDateASqlDate(Date fecha) {
+		return misFunciones.convertirDateASqlDate(fecha);
+	}
+
+	public java.util.Date convertirStringADate(String fecha) {
+		return misFunciones.convertirStringADate(fecha);
 	}
 }
