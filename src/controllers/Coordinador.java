@@ -175,4 +175,12 @@ public class Coordinador {
 	public int editarReserva(Reserva reserva) throws SQLException {
 		return miReservaDAO.editarReserva(reserva);		
 	}
+
+	public String eliminarHuesped(int id) throws SQLException {
+		return miHuespedDAO.eliminarHuesped(id);		
+	}
+
+	public String eliminarReserva(Integer id) throws SQLException {
+		return miReservaDAO.eliminarReserva(id);
+	}
 }

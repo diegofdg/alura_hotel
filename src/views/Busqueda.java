@@ -173,6 +173,9 @@ public class Busqueda extends JFrame implements ActionListener {
 		modeloR = (DefaultTableModel) tbReservas.getModel();
 		modeloH = (DefaultTableModel) tbHuespedes.getModel();
 		
+		limpiarTabla(modeloH);
+		limpiarTabla(modeloR);
+		
 		try {						
 			listaReservas = miCoordinador.listarReservas();
 			llenarTablaReservas(listaReservas);
@@ -243,7 +246,7 @@ public class Busqueda extends JFrame implements ActionListener {
 							"Error",
 							JOptionPane.ERROR_MESSAGE
 						);
-						limpiarTabla("tabla huespedes");
+						limpiarTabla(modeloH);
 						llenarTablaHuespedes(listaHuespedes);
 						
 					} else {
@@ -252,7 +255,7 @@ public class Busqueda extends JFrame implements ActionListener {
 					        listaFiltradaHuespedes = miCoordinador.buscarHuespedPorId(id);
 					        
 					        if(listaFiltradaHuespedes.size() > 0) {
-								limpiarTabla("tabla huespedes");
+								limpiarTabla(modeloH);
 								llenarTablaHuespedes(listaFiltradaHuespedes);
 							} else {
 								JOptionPane.showMessageDialog(
@@ -261,7 +264,7 @@ public class Busqueda extends JFrame implements ActionListener {
 									"Error",
 									JOptionPane.ERROR_MESSAGE
 								);
-								limpiarTabla("tabla huespedes");
+								limpiarTabla(modeloH);
 								llenarTablaHuespedes(listaHuespedes);								
 							}
 					        
@@ -272,7 +275,7 @@ public class Busqueda extends JFrame implements ActionListener {
 								"Error",
 								JOptionPane.ERROR_MESSAGE
 							);
-					    	limpiarTabla("tabla huespedes");
+					    	limpiarTabla(modeloH);
 							llenarTablaHuespedes(listaHuespedes);
 					    	
 					    } catch(SQLException e2) {
@@ -282,7 +285,7 @@ public class Busqueda extends JFrame implements ActionListener {
 								"Error",
 								JOptionPane.ERROR_MESSAGE
 							);
-					    	limpiarTabla("tabla huespedes");
+					    	limpiarTabla(modeloH);
 							llenarTablaHuespedes(listaHuespedes);
 					    }
 					}					
@@ -295,7 +298,7 @@ public class Busqueda extends JFrame implements ActionListener {
 							"Error",
 							JOptionPane.ERROR_MESSAGE
 						);
-						limpiarTabla("tabla huespedes");
+						limpiarTabla(modeloH);
 						llenarTablaHuespedes(listaHuespedes);
 					}
 					
@@ -303,7 +306,7 @@ public class Busqueda extends JFrame implements ActionListener {
 						listaFiltradaHuespedes = miCoordinador.buscarHuespedPorApellido(texto);
 				        
 						if(listaFiltradaHuespedes.size() > 0) {
-							limpiarTabla("tabla huespedes");
+							limpiarTabla(modeloH);
 							llenarTablaHuespedes(listaFiltradaHuespedes);
 						} else {
 							JOptionPane.showMessageDialog(
@@ -312,7 +315,7 @@ public class Busqueda extends JFrame implements ActionListener {
 								"Error",
 								JOptionPane.ERROR_MESSAGE
 							);													
-							limpiarTabla("tabla huespedes");
+							limpiarTabla(modeloH);
 							llenarTablaHuespedes(listaHuespedes);								
 						}
 				        
@@ -323,7 +326,7 @@ public class Busqueda extends JFrame implements ActionListener {
 							"Error",
 							JOptionPane.ERROR_MESSAGE
 						);
-				    	limpiarTabla("tabla huespedes");
+				    	limpiarTabla(modeloH);
 						llenarTablaHuespedes(listaHuespedes);
 				    }
 				}
@@ -337,7 +340,7 @@ public class Busqueda extends JFrame implements ActionListener {
 							"Error",
 							JOptionPane.ERROR_MESSAGE
 						);
-						limpiarTabla("tabla reservas");
+						limpiarTabla(modeloR);
 						llenarTablaReservas(listaReservas);
 						
 					} else {
@@ -346,7 +349,7 @@ public class Busqueda extends JFrame implements ActionListener {
 					        listaFiltradaReservas = miCoordinador.buscarReservaPorId(id);
 					        
 					        if(listaFiltradaReservas.size() > 0) {
-								limpiarTabla("tabla reservas");
+								limpiarTabla(modeloR);
 								llenarTablaReservas(listaFiltradaReservas);								
 							} else {
 								JOptionPane.showMessageDialog(
@@ -355,7 +358,7 @@ public class Busqueda extends JFrame implements ActionListener {
 									"Error",
 									JOptionPane.ERROR_MESSAGE
 								);
-								limpiarTabla("tabla reservas");
+								limpiarTabla(modeloR);
 								llenarTablaReservas(listaReservas);								
 							}
 					        
@@ -366,7 +369,7 @@ public class Busqueda extends JFrame implements ActionListener {
 								"Error",
 								JOptionPane.ERROR_MESSAGE
 							);
-					    	limpiarTabla("tabla reservas");
+					    	limpiarTabla(modeloR);
 							llenarTablaReservas(listaReservas);
 					    	
 					    } catch(SQLException e2) {
@@ -376,7 +379,7 @@ public class Busqueda extends JFrame implements ActionListener {
 								"Error",
 								JOptionPane.ERROR_MESSAGE
 							);
-						    limpiarTabla("tabla reservas");
+						    limpiarTabla(modeloR);
 							llenarTablaReservas(listaReservas);
 					    }
 					}
@@ -388,7 +391,7 @@ public class Busqueda extends JFrame implements ActionListener {
 						"Error",
 						JOptionPane.ERROR_MESSAGE
 					);
-					limpiarTabla("tabla reservas");
+					limpiarTabla(modeloR);
 					llenarTablaReservas(listaReservas);
 				}
 			}	
@@ -421,6 +424,7 @@ public class Busqueda extends JFrame implements ActionListener {
 						String nacionalidad = tbHuespedes.getValueAt(fila, 4).toString();
 						String telefono = tbHuespedes.getValueAt(fila, 5).toString();
 						Integer id_reserva = Integer.valueOf(tbHuespedes.getValueAt(fila, 6).toString());
+						
 						Huesped nuevoHuesped = new Huesped();
 						nuevoHuesped.setId(id);
 						nuevoHuesped.setNombre(nombre);
@@ -437,6 +441,7 @@ public class Busqueda extends JFrame implements ActionListener {
 							"Exito",
 							JOptionPane.INFORMATION_MESSAGE
 						);
+						llenarTablas();
 						
 					} catch (SQLException e1) {
 						JOptionPane.showMessageDialog(
@@ -464,10 +469,13 @@ public class Busqueda extends JFrame implements ActionListener {
 					try {
 						int fila = tbReservas.getSelectedRow();
 						Integer id = Integer.valueOf(tbReservas.getValueAt(fila, 0).toString());
-						String fechaEntrada = tbReservas.getValueAt(fila, 1).toString();
-						java.sql.Date fechaEntradaSql = java.sql.Date.valueOf(fechaEntrada);				        
-						String fechaSalida = tbReservas.getValueAt(fila, 2).toString();
+						
+						String fechaEntrada = tbReservas.getValueAt(fila, 1).toString();						
+						java.sql.Date fechaEntradaSql = java.sql.Date.valueOf(fechaEntrada);
+						
+						String fechaSalida = tbReservas.getValueAt(fila, 2).toString();						
 						java.sql.Date fechaSalidaSql = java.sql.Date.valueOf(fechaSalida);
+						
 						Integer valor = Integer.valueOf(tbReservas.getValueAt(fila, 3).toString());						
 						String formaPago = tbReservas.getValueAt(fila, 4).toString();
 						
@@ -478,7 +486,14 @@ public class Busqueda extends JFrame implements ActionListener {
 		            	nuevaReserva.setValor(valor);;
 		            	nuevaReserva.setForma_pago(formaPago);
 		            	miCoordinador.editarReserva(nuevaReserva);
-						JOptionPane.showMessageDialog(this, "Se modificó con éxito");
+		            	
+		            	JOptionPane.showMessageDialog(
+							null,
+							"Se modificó con éxito",
+							"Exito",
+							JOptionPane.INFORMATION_MESSAGE
+						);
+						llenarTablas();
 						
 					} catch (SQLException e1) {
 						JOptionPane.showMessageDialog(
@@ -489,15 +504,127 @@ public class Busqueda extends JFrame implements ActionListener {
 						);
 					}											
 				}	
-			}			
+			}
 		}
 		
 		if(e.getSource() == btnEliminar) {
-			System.out.println("Eliminando...");			
+			int panelSeleccionado = panel.getSelectedIndex();
+			if(panelSeleccionado == 0) {
+				if (tieneFilaElegida(tbHuespedes)) {
+					JOptionPane.showMessageDialog(
+						null,
+						"Por favor, elije un item",
+						"Error",
+						JOptionPane.ERROR_MESSAGE
+					);
+					tbHuespedes.clearSelection();
+					tbReservas.clearSelection();
+					return;
+				} else {
+					try {
+						int fila = tbHuespedes.getSelectedRow();
+						Integer id = Integer.valueOf(tbHuespedes.getValueAt(fila, 0).toString());
+						Object [] opciones = { "Aceptar", "Cancelar" };
+						int eleccion = JOptionPane.showOptionDialog(
+							rootPane, 
+							"Realmente desea eliminar el registro con id: "+id,
+							"Mensaje de Confirmacion",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE,
+							null,
+							opciones,
+							"Aceptar"
+						);
+						if (eleccion == JOptionPane.YES_OPTION) {
+							String respuesta = miCoordinador.eliminarHuesped(id);
+							if(respuesta.equals("ok")) {
+								JOptionPane.showMessageDialog(
+									null,
+									"Se eliminó con éxito",
+									"Exito",
+									JOptionPane.INFORMATION_MESSAGE
+								);
+								llenarTablas();
+							} else {
+								JOptionPane.showMessageDialog(
+									null,
+									"Ha ocurrido un error",
+									"Error",
+									JOptionPane.ERROR_MESSAGE
+								);								
+							}
+						}
+						
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(
+							null,
+							"Ha ocurrido un error",
+							"Error",
+							JOptionPane.ERROR_MESSAGE
+						);
+					}
+				}
+			} else if(panelSeleccionado == 1) {
+				if (tieneFilaElegida(tbReservas)) {
+					JOptionPane.showMessageDialog(
+						null,
+						"Por favor, elije un item",
+						"Error",
+						JOptionPane.ERROR_MESSAGE
+					);
+					tbHuespedes.clearSelection();
+					tbReservas.clearSelection();
+					return;
+					
+				} else {
+					try {
+						int fila = tbReservas.getSelectedRow();
+						Integer id = Integer.valueOf(tbReservas.getValueAt(fila, 0).toString());
+						Object [] opciones = { "Aceptar", "Cancelar" };
+						int eleccion = JOptionPane.showOptionDialog(
+							rootPane, 
+							"Realmente desea eliminar el registro con id: "+id,
+							"Mensaje de Confirmacion",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE,
+							null,
+							opciones,
+							"Aceptar"
+						);
+						if (eleccion == JOptionPane.YES_OPTION) {
+							String respuesta = miCoordinador.eliminarReserva(id);
+							if(respuesta.equals("ok")) {
+								JOptionPane.showMessageDialog(
+									null,
+									"Se eliminó con éxito",
+									"Exito",
+									JOptionPane.INFORMATION_MESSAGE
+								);
+								llenarTablas();
+							} else {
+								JOptionPane.showMessageDialog(
+									null,
+									"Ha ocurrido un error",
+									"Error",
+									JOptionPane.ERROR_MESSAGE
+								);								
+							}
+						}
+						
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(
+							null,
+							"Ha ocurrido un error",
+							"Error",
+							JOptionPane.ERROR_MESSAGE
+						);
+					}
+				}
+			}
 		}
 		
 		if(e.getSource() == btnCancelar) {
-			System.out.println("Cancelando...");			
+			llenarTablas();			
 		}
 		
 		if(e.getSource() == btnSalir) {
@@ -539,11 +666,7 @@ public class Busqueda extends JFrame implements ActionListener {
 		return panel.getSelectedIndex();
 	}
 	
-	private void limpiarTabla(String tabla) {
-		if(tabla.equals("tabla huespedes")) {
-			modeloH.setRowCount(0);			
-		} else if(tabla.equals("tabla reservas")) {		
-			modeloR.setRowCount(0);
-		}
+	private void limpiarTabla(DefaultTableModel modelo) {		
+		modelo.setRowCount(0);
 	}
 }

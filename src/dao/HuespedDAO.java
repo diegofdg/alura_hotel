@@ -60,25 +60,11 @@ public class HuespedDAO {
             
             while (resultSet.next()) {
                 resultado = resultSet.getInt(1);
-                
                 System.out.println(String.format("Fue insertado el huesped con id: " +resultado));
             }            
 		
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo registrar el huesped",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
-			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo registrar el huesped",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
+			return resultado;
 			
 		} finally {
 			preStatement.close();
@@ -87,10 +73,6 @@ public class HuespedDAO {
 		}
 		
 		return resultado;
-	}
-	
-	public void setCoordinador(Coordinador miCoordinador) {
-		this.miCoordinador = miCoordinador;
 	}
 	
 	public ArrayList<Huesped> listarHuespedes() throws SQLException {
@@ -118,21 +100,8 @@ public class HuespedDAO {
                 resultado.add(huesped);
             }
 		
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo listar los huespedes",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
-			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo listar los huespedes",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
+			return resultado;
 			
 		} finally {
 			preStatement.close();
@@ -159,7 +128,6 @@ public class HuespedDAO {
 			preStatement = connection.prepareStatement(consulta);
 			preStatement.setInt(1, id);
 			resultSet = preStatement.executeQuery();
-			
             
             if(resultSet.next()) {
             	Huesped huesped = new Huesped();
@@ -172,21 +140,8 @@ public class HuespedDAO {
                 resultado.add(huesped);
             }
 		
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo realizar la búsqueda",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
-			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo realizar la búsqueda",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
+			return resultado;
 			
 		} finally {
 			preStatement.close();
@@ -224,21 +179,8 @@ public class HuespedDAO {
                 resultado.add(huesped);
             }
 		
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo realizar la búsqueda",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);			
-			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo realizar la búsqueda",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
+			return resultado;
 			
 		} finally {
 			preStatement.close();
@@ -277,21 +219,8 @@ public class HuespedDAO {
             }
             
 		
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo editar el huesped",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
-			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo editar el huesped",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
+			return resultado;
 			
 		} finally {
 			preStatement.close();
@@ -300,5 +229,35 @@ public class HuespedDAO {
 		}
 		
 		return resultado;
+	}
+
+	public String eliminarHuesped(int id) throws SQLException {
+		String respuesta = "";
+		
+		if (!conectar().equals("conectado")) {
+			return "error";
+		}
+		
+		try {
+			String consulta = "DELETE FROM huespedes WHERE id = ? ";
+
+			PreparedStatement statement = connection.prepareStatement(consulta);
+			statement.setInt(1, id);			
+			statement.executeUpdate();
+						
+			respuesta = "ok";
+			
+		} catch (SQLException e) {
+			respuesta = "error";
+		} finally {
+			preStatement.close();
+			connection.close();
+			conexion.desconectar();
+		}
+		return respuesta;		
+	}
+	
+	public void setCoordinador(Coordinador miCoordinador) {
+		this.miCoordinador = miCoordinador;
 	}
 }

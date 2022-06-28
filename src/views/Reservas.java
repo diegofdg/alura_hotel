@@ -206,7 +206,7 @@ public class Reservas extends JFrame implements ActionListener {
 				
 			try {
 				resultado = miCoordinador.guardarReserva(reserva);
-				if(resultado != 0) {
+				if(resultado == 0) {
 					JOptionPane.showMessageDialog(
 						null,
 						"Ha ocurrido un error",
@@ -214,7 +214,14 @@ public class Reservas extends JFrame implements ActionListener {
 						JOptionPane.ERROR_MESSAGE
 					);					
 					limpiarCampos();					
-				}				
+				} else {
+					JOptionPane.showMessageDialog(
+						null,
+						"Se agregó la reserva exitosamente",
+						"Exito",
+						JOptionPane.INFORMATION_MESSAGE
+					);
+				}			
 				return resultado;
 				
 			} catch (SQLException e) {

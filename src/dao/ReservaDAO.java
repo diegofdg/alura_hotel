@@ -36,7 +36,7 @@ public class ReservaDAO {
 		return resultado;
 	}
 	
-	public int guardarReserva(Reserva reserva) throws SQLException {		
+	public int guardarReserva(Reserva reserva) throws SQLException {	
 		int resultado = 0;
 		
 		if (!conectar().equals("conectado")) {
@@ -58,25 +58,11 @@ public class ReservaDAO {
             
             while (resultSet.next()) {
                 resultado = resultSet.getInt(1);
-                
                 System.out.println(String.format("Fue insertada la reserva con id: " +resultado));
             }            
 		
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo registrar la reserva",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
-			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo registrar la reserva",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
+			return resultado;
 			
 		} finally {
 			preStatement.close();
@@ -110,21 +96,8 @@ public class ReservaDAO {
                 resultado.add(reserva);                
             }            
 		
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo listar las reservas",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
-			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo listar las reservas",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
+			return resultado;
 			
 		} finally {
 			preStatement.close();
@@ -134,61 +107,44 @@ public class ReservaDAO {
 		
 		return resultado;
 	}
-	
-	public void setCoordinador(Coordinador miCoordinador) {
-		this.miCoordinador = miCoordinador;
-	}
 
 	public ArrayList<Reserva> buscarReservaPorId(int id) throws SQLException {		
-			ArrayList<Reserva> resultado = new ArrayList<Reserva>();
-			
-			if (!conectar().equals("conectado")) {
-				return resultado;
-			}
-			
-			ResultSet resultSet = null;
-
-			String consulta = "SELECT id, fecha_entrada, fecha_salida, valor, forma_pago FROM reservas WHERE id = ?";
-
-			try {
-				preStatement = connection.prepareStatement(consulta);
-				preStatement.setInt(1, id);
-				resultSet = preStatement.executeQuery();				
-	            
-	            if(resultSet.next()) {
-	            	Reserva reserva = new Reserva();
-	            	reserva.setId(resultSet.getInt(1));
-	            	reserva.setFecha_entrada(resultSet.getDate(2));
-	            	reserva.setFecha_salida(resultSet.getDate(3));
-	            	reserva.setValor(resultSet.getInt(4));
-	            	reserva.setForma_pago(resultSet.getString(5));            	
-	                resultado.add(reserva);        
-	            }
-			
-			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(
-					null,
-					"No se pudo realizar la búsqueda",
-					"Error",
-					JOptionPane.ERROR_MESSAGE
-				);
-				
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(
-					null,
-					"No se pudo realizar la búsqueda",
-					"Error",
-					JOptionPane.ERROR_MESSAGE
-				);
-				
-			} finally {
-				preStatement.close();
-				connection.close();
-				conexion.desconectar();
-			}
-			
+		ArrayList<Reserva> resultado = new ArrayList<Reserva>();
+		
+		if (!conectar().equals("conectado")) {
 			return resultado;
 		}
+		
+		ResultSet resultSet = null;
+
+		String consulta = "SELECT id, fecha_entrada, fecha_salida, valor, forma_pago FROM reservas WHERE id = ?";
+
+		try {
+			preStatement = connection.prepareStatement(consulta);
+			preStatement.setInt(1, id);
+			resultSet = preStatement.executeQuery();				
+            
+            if(resultSet.next()) {
+            	Reserva reserva = new Reserva();
+            	reserva.setId(resultSet.getInt(1));
+            	reserva.setFecha_entrada(resultSet.getDate(2));
+            	reserva.setFecha_salida(resultSet.getDate(3));
+            	reserva.setValor(resultSet.getInt(4));
+            	reserva.setForma_pago(resultSet.getString(5));            	
+                resultado.add(reserva);        
+            }
+		
+		} catch (Exception e) {
+			return resultado;
+			
+		} finally {
+			preStatement.close();
+			connection.close();
+			conexion.desconectar();
+		}
+		
+		return resultado;
+	}
 
 	public int editarReserva(Reserva reserva) throws SQLException {
 		int resultado = 0;
@@ -212,26 +168,12 @@ public class ReservaDAO {
             
             while (resultSet.next()) {
                 resultado = resultSet.getInt(1);
-                
                 System.out.println(String.format("Fue editada la reserva con id: " +resultado));
             }
             
 		
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo editar la reserva",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
-			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-				null,
-				"No se pudo editar la reserva",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
+			return resultado;
 			
 		} finally {
 			preStatement.close();
@@ -240,5 +182,35 @@ public class ReservaDAO {
 		}
 		
 		return resultado;
-	}	
+	}
+	
+	public void setCoordinador(Coordinador miCoordinador) {
+		this.miCoordinador = miCoordinador;
+	}
+
+	public String eliminarReserva(Integer id) throws SQLException {
+		String respuesta = "";
+		
+		if (!conectar().equals("conectado")) {
+			return "error";
+		}
+		
+		try {
+			String consulta = "DELETE FROM reservas WHERE id = ? ";
+
+			PreparedStatement statement = connection.prepareStatement(consulta);
+			statement.setInt(1, id);			
+			statement.executeUpdate();
+						
+			respuesta = "ok";
+			
+		} catch (SQLException e) {
+			respuesta = "error";
+		} finally {
+			preStatement.close();
+			connection.close();
+			conexion.desconectar();
+		}
+		return respuesta;	
+	}
 }
